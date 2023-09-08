@@ -36,16 +36,5 @@ namespace Application.Commands.Students.CreateStudent
 
             return _mapper.Map<StudentDto>(student);
         }
-
-        //public StudentDto CreateStudent(CreateStudentDto newStudent)
-        //{
-        //    _studentValidator.Validate(newStudent);
-
-        //    var student = _mapper.Map<Student>(newStudent);
-
-        //    _studentRepository.Add(student);
-
-        //    return _mapper.Map<StudentDto>(student);
-        //}
     }
 }
