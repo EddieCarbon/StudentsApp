@@ -31,8 +31,8 @@ builder.Services.AddScoped<IDepartmentValidator, DepartmentValidator>();
 builder.Services.AddScoped<IValidator<CreateStudentCommand>, CreateStudentCommandValidation>();
 
 // Add MediatR
-//var applicationAssembly = AppDomain.CurrentDomain.GetAssemblies().Single(assembly => assembly.GetName().Name == "Application");
-//builder.Services.AddMediatR(applicationAssembly);
+var applicationAssembly = AppDomain.CurrentDomain.GetAssemblies().Single(assembly => assembly.GetName().Name == "Application");
+builder.Services.AddMediatR(applicationAssembly);
 
 // Add DB Context
 builder.Services.AddDbContext<StudentAppContext>(options =>
