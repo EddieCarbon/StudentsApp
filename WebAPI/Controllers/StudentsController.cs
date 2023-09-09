@@ -9,6 +9,7 @@ using Application.Commands.Students.CreateStudent;
 using Application.Commands.Students.DeleteStudent;
 using Application.Commands.Students.UpdateStudent;
 using Application.Queries.Students.GetAllStudents;
+using Application.Queries.Students.GetStudentByEmail;
 
 namespace WebAPI.Controllers
 {
@@ -36,7 +37,7 @@ namespace WebAPI.Controllers
         {
             var result = await _mediator.Send(new GetAllStudentsQuery());
             return Ok(result);
-        }
+        }//
         // public IActionResult Get()
         // {
         //     var students = _studentService.GetAllStudents();
@@ -57,15 +58,24 @@ namespace WebAPI.Controllers
 
         [SwaggerOperation(Summary = "Retrieves a specific student by unique Email")]
         [HttpGet("[action]/{Email}")]
-        public IActionResult Get(string Email)
+        [ProducesResponseType(typeof(StudentDetailDto), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> Get(string Email)
         {
-            var student = _studentService.GetStudentByEmail(Email);
-
-            if (student is null)
-                return NotFound();
-
-            return Ok(student);
+            var result = await _mediator.Send(new GetStudentByEmailQuery(Email));
+            return result != null ? Ok(result) : NotFound();
         }
+        
+        //[SwaggerOperation(Summary = "Retrieves a specific student by unique Email")]
+        //[HttpGet("[action]/{Email}")]
+        //public IActionResult Get(string Email)
+        //{
+        //    var student = _studentService.GetStudentByEmail(Email);
+
+        //    if (student is null)
+        //        return NotFound();
+
+        //    return Ok(student);
+        //}
 
         [SwaggerOperation(Summary = "Create a new student")]
         [HttpPost]
