@@ -34,7 +34,6 @@
     <Folder Include="Commands\Departments\UpdateDepartment\" />
     <Folder Include="Queries\Departments\GetAllDepartments\" />
     <Folder Include="Queries\Departments\GetDepartmentById\" />
-    <Folder Include="Queries\Students\GetStudentById\" />
   </ItemGroup>
 
 </Project>

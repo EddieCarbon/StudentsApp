@@ -10,6 +10,7 @@ using Application.Commands.Students.DeleteStudent;
 using Application.Commands.Students.UpdateStudent;
 using Application.Queries.Students.GetAllStudents;
 using Application.Queries.Students.GetStudentByEmail;
+using Application.Queries.Students.GetStudentById;
 
 namespace WebAPI.Controllers
 {
@@ -46,15 +47,21 @@ namespace WebAPI.Controllers
 
         [SwaggerOperation(Summary = "Retrieves a specific student by unique ID")]
         [HttpGet("{Id}")]
-        public IActionResult Get(int Id)
+        [ProducesResponseType(typeof(StudentDetailDto), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> Get(int Id)
         {
-            var student = _studentService.GetStudentById(Id);
-
-            if (student is null)
-                return NotFound();
-
-            return Ok(student);
+            var result = await _mediator.Send(new GetStudentByIdQuery(Id));
+            return result != null ? Ok(result) : NotFound();
         }
+        // public IActionResult Get(int Id)
+        // {
+        //     var student = _studentService.GetStudentById(Id);
+
+        //     if (student is null)
+        //         return NotFound();
+
+        //     return Ok(student);
+        // }
 
         [SwaggerOperation(Summary = "Retrieves a specific student by unique Email")]
         [HttpGet("[action]/{Email}")]
