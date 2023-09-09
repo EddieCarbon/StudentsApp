@@ -4,11 +4,7 @@ using Application.Validators.Abstractions;
 using AutoMapper;
 using Core.Entities;
 using Core.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Application.Services
 {
@@ -17,6 +13,7 @@ namespace Application.Services
         private readonly IStudentRepository _studentRepository;
         private readonly IStudentValidator _studentValidator;
         private readonly IMapper _mapper;
+        
         public StudentService(IStudentRepository studentRepository, IStudentValidator studentValidator, IMapper mapper)
         {
             _studentRepository = studentRepository;

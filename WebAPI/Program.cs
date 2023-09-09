@@ -11,6 +11,7 @@ using Infrastructure.Context;
 using MediatR;
 using FluentValidation;
 using Application.Commands.Students.CreateStudent;
+using Application.Commands.Students.UpdateStudent;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,6 +32,7 @@ var applicationAssembly = AppDomain.CurrentDomain.GetAssemblies().Single(assembl
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(applicationAssembly));
 // builder.Services.AddAutoMapper(applicationAssembly);
 builder.Services.AddScoped<IValidator<CreateStudentCommand>, CreateStudentCommandValidation>();
+builder.Services.AddScoped<IValidator<UpdateStudentCommand>, UpdateStudentCommandValidation>();
 
 
 // Add MediatR

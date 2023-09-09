@@ -7,6 +7,7 @@ using MediatR;
 using System.Net;
 using Application.Commands.Students.CreateStudent;
 using Application.Commands.Students.DeleteStudent;
+using Application.Commands.Students.UpdateStudent;
 
 namespace WebAPI.Controllers
 {
@@ -75,14 +76,21 @@ namespace WebAPI.Controllers
 
         [SwaggerOperation(Summary = "Update a existing student")]
         [HttpPut]
-        public IActionResult Update(UpdateStudentDto updateStudent)
+        [ProducesResponseType((int)HttpStatusCode.NoContent)]
+        public async Task<IActionResult> Update(UpdateStudentCommand command)
         {
-            _studentService.UpdateStudent(updateStudent);
+            await _mediator.Send(command);
             return NoContent();
         }
+        // public IActionResult Update(UpdateStudentDto updateStudent)
+        // {
+        //     _studentService.UpdateStudent(updateStudent);
+        //     return NoContent();
+        // }
 
         [SwaggerOperation(Summary = "Delete a specific student")]
         [HttpDelete("{Id}")]
+        [ProducesResponseType((int)HttpStatusCode.NoContent)]
         public async Task<IActionResult> Delete(int Id)
         {
             await _mediator.Send(new DeleteStudentCommand(Id));
