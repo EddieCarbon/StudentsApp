@@ -6,6 +6,7 @@ using Swashbuckle.AspNetCore.Annotations;
 using MediatR;
 using System.Net;
 using Application.Commands.Students.CreateStudent;
+using Application.Commands.Students.DeleteStudent;
 
 namespace WebAPI.Controllers
 {
@@ -82,10 +83,17 @@ namespace WebAPI.Controllers
 
         [SwaggerOperation(Summary = "Delete a specific student")]
         [HttpDelete("{Id}")]
-        public IActionResult Delete(int Id)
+        public async Task<IActionResult> Delete(int Id)
         {
-            _studentService.DeleteStudent(Id);
+            await _mediator.Send(new DeleteStudentCommand(Id));
             return NoContent();
         }
+        // [SwaggerOperation(Summary = "Delete a specific student")]
+        // [HttpDelete("{Id}")]
+        // public IActionResult Delete(int Id)
+        // {
+        //     _studentService.DeleteStudent(Id);
+        //     return NoContent();
+        // }
     }
 }
