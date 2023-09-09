@@ -8,6 +8,7 @@ using System.Net;
 using Application.Commands.Students.CreateStudent;
 using Application.Commands.Students.DeleteStudent;
 using Application.Commands.Students.UpdateStudent;
+using Application.Queries.Students.GetAllStudents;
 
 namespace WebAPI.Controllers
 {
@@ -30,11 +31,17 @@ namespace WebAPI.Controllers
 
         [SwaggerOperation(Summary = "Retrieves all students")]
         [HttpGet]
-        public IActionResult Get()
+        [ProducesResponseType(typeof(ListStudentsDto), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> Get()
         {
-            var students = _studentService.GetAllStudents();
-            return Ok(students);
+            var result = await _mediator.Send(new GetAllStudentsQuery());
+            return Ok(result);
         }
+        // public IActionResult Get()
+        // {
+        //     var students = _studentService.GetAllStudents();
+        //     return Ok(students);
+        // }
 
         [SwaggerOperation(Summary = "Retrieves a specific student by unique ID")]
         [HttpGet("{Id}")]

@@ -3,7 +3,7 @@ using MediatR;
 
 namespace Application.Commands.Students.CreateStudent
 {
-    public record CreateStudentCommand : IRequest<StudentDto>
+    public class CreateStudentCommand : IRequest<StudentDto>
     {
         public string Name { get; set; }
         public string Surname { get; set; }
