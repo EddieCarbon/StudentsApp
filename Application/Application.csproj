@@ -32,8 +32,6 @@
     <Folder Include="Commands\Departments\CreateDepartment\" />
     <Folder Include="Commands\Departments\DeleteDepartment\" />
     <Folder Include="Commands\Departments\UpdateDepartment\" />
-    <Folder Include="Commands\Students\DeleteStudent\" />
-    <Folder Include="Commands\Students\UpdateStudent\" />
     <Folder Include="Queries\Departments\GetAllDepartments\" />
     <Folder Include="Queries\Departments\GetDepartmentById\" />
     <Folder Include="Queries\Students\GetAllStudents\" />

@@ -3,6 +3,9 @@ using Application.Dto.Student;
 using Application.Services.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
+using MediatR;
+using System.Net;
+using Application.Commands.Students.CreateStudent;
 
 namespace WebAPI.Controllers
 {
@@ -10,12 +13,18 @@ namespace WebAPI.Controllers
     [ApiController]
     public class StudentsController : ControllerBase
     {
-        private readonly IStudentService _studentService;
-
-        public StudentsController(IStudentService studentService)
+        // private readonly IStudentService _studentService;
+        private readonly IMediator _mediator;
+        
+        public StudentsController(IMediator mediator)
         {
-            _studentService = studentService;
+            _mediator = mediator;
         }
+        
+        // public StudentsController(IStudentService studentService)
+        // {
+        //    _studentService = studentService;
+        // }
 
         [SwaggerOperation(Summary = "Retrieves all students")]
         [HttpGet]
@@ -51,11 +60,17 @@ namespace WebAPI.Controllers
 
         [SwaggerOperation(Summary = "Create a new student")]
         [HttpPost]
-        public IActionResult Create(CreateStudentDto newStudent)
+        [ProducesResponseType((int)HttpStatusCode.Created)]
+        public async Task<IActionResult> Create(CreateStudentCommand command)
         {
-            var student = _studentService.CreateStudent(newStudent);
-            return Created($"api/students/{student.Id}", student);
+            var result = await _mediator.Send(command);
+            return CreatedAtAction(nameof(Get), new { id = result.Id }, result);
         }
+        // public IActionResult Create(CreateStudentDto newStudent)
+        // {
+        //     var student = _studentService.CreateStudent(newStudent);
+        //     return Created($"api/students/{student.Id}", student);
+        // }
 
         [SwaggerOperation(Summary = "Update a existing student")]
         [HttpPut]

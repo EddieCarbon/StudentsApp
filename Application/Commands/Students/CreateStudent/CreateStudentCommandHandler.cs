@@ -23,17 +23,18 @@ namespace Application.Commands.Students.CreateStudent
         
         public async Task<StudentDto> Handle(CreateStudentCommand request, CancellationToken cancellationToken)
         {
-            var validationResult = await _validator.ValidateAsync(request, cancellationToken);
-
-            if (!validationResult.IsValid)
+            ValidationResult result = await _validator.ValidateAsync(request, cancellationToken);
+            if (!result.IsValid) 
             {
-                throw new ValidationException(validationResult.Errors);
+                var errorList = result.Errors.Select(x => x.ErrorMessage);
+                throw new ValidationException($"Invalid command, reasons: {string.Join(",", errorList.ToArray())}");
             }
-
+            
             var student = _mapper.Map<Student>(request);
 
             _studentRepository.Add(student);
-
+            
+            // TODO: Check if this is ok 
             return _mapper.Map<StudentDto>(student);
         }
     }
