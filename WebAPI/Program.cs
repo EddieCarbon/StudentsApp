@@ -28,16 +28,11 @@ builder.Services.AddScoped<IDepartmentService, DepartmentService>();
 builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
 builder.Services.AddScoped<IDepartmentValidator, DepartmentValidator>();
 
-var applicationAssembly = AppDomain.CurrentDomain.GetAssemblies().Single(assembly => assembly.GetName().Name == "Gradebook.Application");
+// Add MediatR
+var applicationAssembly = AppDomain.CurrentDomain.GetAssemblies().Single(assembly => assembly.GetName().Name == "Application");
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(applicationAssembly));
-// builder.Services.AddAutoMapper(applicationAssembly);
 builder.Services.AddScoped<IValidator<CreateStudentCommand>, CreateStudentCommandValidation>();
 builder.Services.AddScoped<IValidator<UpdateStudentCommand>, UpdateStudentCommandValidation>();
-
-
-// Add MediatR
-// var applicationAssembly = AppDomain.CurrentDomain.GetAssemblies().Single(assembly => assembly.GetName().Name == "Application");
-// builder.Services.AddMediatR(applicationAssembly);
 
 // Add DB Context
 builder.Services.AddDbContext<StudentAppContext>(options =>
