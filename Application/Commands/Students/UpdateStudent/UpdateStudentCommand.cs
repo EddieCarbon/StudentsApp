@@ -1,3 +1,5 @@
+using Application.Dto.StudentAddress;
+using Application.Dto.StudentDepartment;
 using MediatR;
 
 namespace Application.Commands.Students.UpdateStudent;
@@ -10,4 +12,7 @@ public record UpdateStudentCommand : IRequest
     public string Email { get; set; }
     public DateTime DateOfBirth { get; set; }
     public int StartingStudyYear { get; set; }
+    
+    public CreateStudentAddress CreateStudentAddress { get; set; }
+    public CreateStudentDepartment CreateStudentDepartment { get; set; }
 }
