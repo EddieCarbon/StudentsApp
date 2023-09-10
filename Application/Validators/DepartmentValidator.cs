@@ -1,13 +1,7 @@
 ﻿using Application.Dto.Student;
-using Application.Services.Abstractions;
 using Application.Validators.Abstractions;
-using Core.Entities;
 using Core.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Application.Validators
 {

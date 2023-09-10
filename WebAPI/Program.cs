@@ -8,7 +8,6 @@ using Application.Validators.Abstractions;
 using Core.Repositories;
 using Infrastructure.Repositories;
 using Infrastructure.Context;
-using MediatR;
 using FluentValidation;
 using Application.Commands.Students.CreateStudent;
 using Application.Commands.Students.UpdateStudent;
