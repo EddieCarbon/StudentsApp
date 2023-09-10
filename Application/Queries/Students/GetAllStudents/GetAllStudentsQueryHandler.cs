@@ -16,9 +16,12 @@ internal class GetAllStudentsQueryHandler : IRequestHandler<GetAllStudentsQuery,
         _mapper = mapper;
     }
     
-    public async Task<ListStudentsDto> Handle(GetAllStudentsQuery request, CancellationToken cancellationToken)
+    public Task<ListStudentsDto> Handle(GetAllStudentsQuery request, CancellationToken cancellationToken)
     {
         var students = _studentRepository.GetAll();
-        return _mapper.Map<ListStudentsDto>(students);
+        
+        var studentDto = _mapper.Map<ListStudentsDto>(students);
+        
+        return Task.FromResult(studentDto);
     }
 }

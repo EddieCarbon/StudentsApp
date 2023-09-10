@@ -20,6 +20,9 @@ internal class GetStudentByEmailQueryHandler : IRequestHandler<GetStudentByEmail
     public async Task<StudentDetailDto> Handle(GetStudentByEmailQuery request, CancellationToken cancellationToken)
     {
         var student = await _studentRepository.GetAll().SingleOrDefaultAsync(x => x.Email == request.Email, cancellationToken);
-        return _mapper.Map<StudentDetailDto>(student);
+        
+        var studentDto = _mapper.Map<StudentDetailDto>(student);
+        
+        return studentDto;
     }
 }

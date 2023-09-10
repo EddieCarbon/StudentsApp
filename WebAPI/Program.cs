@@ -3,10 +3,6 @@ using Application.Commands.Departments.UpdateDepartment;
 using Application.Mapping;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
-using Application.Services;
-using Application.Services.Abstractions;
-using Application.Validators;
-using Application.Validators.Abstractions;
 using Core.Repositories;
 using Infrastructure.Repositories;
 using Infrastructure.Context;
@@ -16,27 +12,19 @@ using Application.Commands.Students.UpdateStudent;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddControllers();
 
-//Student Services
+// Core Services
 builder.Services.AddScoped<IStudentRepository, StudentRepository>();
-// builder.Services.AddScoped<IStudentService, StudentService>();
-// builder.Services.AddScoped<IStudentValidator, StudentValidator>();
-
-// Department Services
-builder.Services.AddScoped<IDepartmentService, DepartmentService>();
 builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
-builder.Services.AddScoped<IDepartmentValidator, DepartmentValidator>();
 
-// Add MediatR
+// Add Mediator
 var applicationAssembly = AppDomain.CurrentDomain.GetAssemblies().Single(assembly => assembly.GetName().Name == "Application");
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(applicationAssembly));
 builder.Services.AddScoped<IValidator<CreateStudentCommand>, CreateStudentCommandValidation>();
 builder.Services.AddScoped<IValidator<CreateDepartmentCommand>, CreateDepartmentCommandValidation>();
 builder.Services.AddScoped<IValidator<UpdateStudentCommand>, UpdateStudentCommandValidation>();
 builder.Services.AddScoped<IValidator<UpdateDepartmentCommand>, UpdateDepartmentCommandValidation>();
-
 
 // Add DB Context
 builder.Services.AddDbContext<StudentAppContext>(options =>

@@ -16,9 +16,12 @@ internal class GetStudentByIdQueryHandler : IRequestHandler<GetStudentByIdQuery,
         _mapper = mapper;
     }
     
-    public async Task<StudentDetailDto> Handle(GetStudentByIdQuery request, CancellationToken cancellationToken)
+    public Task<StudentDetailDto> Handle(GetStudentByIdQuery request, CancellationToken cancellationToken)
     {
         var student = _studentRepository.GetById(request.Id);
-        return _mapper.Map<StudentDetailDto>(student);
+        
+        var studentDetailDto = _mapper.Map<StudentDetailDto>(student);
+        
+        return Task.FromResult(studentDetailDto);
     }
 }
