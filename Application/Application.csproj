@@ -28,12 +28,5 @@
     <ProjectReference Include="..\Core\Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Commands\Departments\CreateDepartment\" />
-    <Folder Include="Commands\Departments\DeleteDepartment\" />
-    <Folder Include="Commands\Departments\UpdateDepartment\" />
-    <Folder Include="Queries\Departments\GetAllDepartments\" />
-    <Folder Include="Queries\Departments\GetDepartmentById\" />
-  </ItemGroup>
 
 </Project>

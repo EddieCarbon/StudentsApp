@@ -19,9 +19,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 //Student Services
-builder.Services.AddScoped<IStudentService, StudentService>();
 builder.Services.AddScoped<IStudentRepository, StudentRepository>();
-builder.Services.AddScoped<IStudentValidator, StudentValidator>();
+// builder.Services.AddScoped<IStudentService, StudentService>();
+// builder.Services.AddScoped<IStudentValidator, StudentValidator>();
 
 // Department Services
 builder.Services.AddScoped<IDepartmentService, DepartmentService>();
