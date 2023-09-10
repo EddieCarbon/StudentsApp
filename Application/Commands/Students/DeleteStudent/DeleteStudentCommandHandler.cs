@@ -12,7 +12,7 @@ internal class DeleteStudentCommandHandler : IRequestHandler<DeleteStudentComman
         _studentRepository = studentRepository;
     }
 
-    public async Task Handle(DeleteStudentCommand request, CancellationToken cancellationToken)
+    public Task Handle(DeleteStudentCommand request, CancellationToken cancellationToken)
     {
         var student = _studentRepository.GetById(request.Id);
         if (student is null)
@@ -21,5 +21,6 @@ internal class DeleteStudentCommandHandler : IRequestHandler<DeleteStudentComman
         }
         
         _studentRepository.Delete(student);
+        return Task.CompletedTask;
     }
 }

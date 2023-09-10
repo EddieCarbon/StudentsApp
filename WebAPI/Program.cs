@@ -1,3 +1,5 @@
+using Application.Commands.Departments.CreateDepartment;
+using Application.Commands.Departments.UpdateDepartment;
 using Application.Mapping;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
@@ -31,7 +33,10 @@ builder.Services.AddScoped<IDepartmentValidator, DepartmentValidator>();
 var applicationAssembly = AppDomain.CurrentDomain.GetAssemblies().Single(assembly => assembly.GetName().Name == "Application");
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(applicationAssembly));
 builder.Services.AddScoped<IValidator<CreateStudentCommand>, CreateStudentCommandValidation>();
+builder.Services.AddScoped<IValidator<CreateDepartmentCommand>, CreateDepartmentCommandValidation>();
 builder.Services.AddScoped<IValidator<UpdateStudentCommand>, UpdateStudentCommandValidation>();
+builder.Services.AddScoped<IValidator<UpdateDepartmentCommand>, UpdateDepartmentCommandValidation>();
+
 
 // Add DB Context
 builder.Services.AddDbContext<StudentAppContext>(options =>
