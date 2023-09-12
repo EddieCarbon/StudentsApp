@@ -1,5 +1,7 @@
 ﻿using System.Net;
+using Application.Commands.Departments.CreateDepartment;
 using Application.Commands.Departments.DeleteDepartment;
+using Application.Commands.Departments.UpdateDepartment;
 using Application.Dto.Student;
 using Application.Queries.Departments.GetAllDepartments;
 using Application.Queries.Departments.GetDepartmentById;
@@ -41,18 +43,18 @@ namespace WebAPI.Controllers
         [SwaggerOperation(Summary = "Create a new department")]
         [HttpPost]
         [ProducesResponseType((int)HttpStatusCode.Created)]
-        public async Task<IActionResult> Create(CreateDepartmentDto newDepartment)
+        public async Task<IActionResult> Create(CreateDepartmentCommand command)
         {
-            var result = await _mediator.Send(newDepartment);
+            var result = await _mediator.Send(command);
             return CreatedAtAction(nameof(Get), new { id = result.DepartmentId }, result);
         }
         
         [SwaggerOperation(Summary = "Update a existing department")]
         [HttpPut]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
-        public async Task<IActionResult> Update(UpdateDepartmentDto updateDepartment)
+        public async Task<IActionResult> Update(UpdateDepartmentCommand command)
         {
-            await _mediator.Send(updateDepartment);
+            await _mediator.Send(command);
             return NoContent();
         }
         
