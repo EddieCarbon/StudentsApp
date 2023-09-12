@@ -1,13 +1,10 @@
-﻿using Application.Dto;
-using Application.Dto.Student;
+﻿using Application.Dto.Student;
 using Application.Dto.StudentAddress;
 using AutoMapper;
 using Core.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Application.Commands.Students.CreateStudent;
+using Application.Commands.Students.UpdateStudent;
+using Application.Dto.StudentDepartment;
 
 namespace Application.Mapping
 {
@@ -37,6 +34,12 @@ namespace Application.Mapping
                 .ForMember(dest => dest.Departments, act => act.MapFrom(src => src))
                 .ForMember(dest => dest.Count, act => act.MapFrom(src => src.Count()));
 
+               cfg.CreateMap<CreateStudentCommand, Student>();
+               cfg.CreateMap<CreateStudentAddress, StudentAddress>();
+               
+               cfg.CreateMap<UpdateStudentCommand, Student>();
+               cfg.CreateMap<CreateStudentAddress, StudentAddress>();
+               cfg.CreateMap<CreateStudentDepartment, Department>();
 
                #endregion
 
