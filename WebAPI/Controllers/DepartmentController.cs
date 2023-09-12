@@ -34,9 +34,9 @@ namespace WebAPI.Controllers
         [SwaggerOperation(Summary = "Retrieves a specific department by unique ID")]
         [HttpGet("{Id}")]
         [ProducesResponseType(typeof(DepartmentDetailDto), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> Get(int departmentId)
+        public async Task<IActionResult> Get(int Id)
         {
-            var result = await _mediator.Send(new GetDepartmentByIdQuery(departmentId));
+            var result = await _mediator.Send(new GetDepartmentByIdQuery(Id));
             return result != null ? Ok(result) : NotFound();
         }
         
@@ -61,9 +61,9 @@ namespace WebAPI.Controllers
         [SwaggerOperation(Summary = "Delete a specific department")]
         [HttpDelete("{Id}")]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
-        public async Task<IActionResult> Delete(int departmentId)
+        public async Task<IActionResult> Delete(int Id)
         {
-            await _mediator.Send(new DeleteDepartmentCommand(departmentId));
+            await _mediator.Send(new DeleteDepartmentCommand(Id));
             return NoContent();
         }
 

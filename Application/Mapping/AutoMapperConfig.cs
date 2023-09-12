@@ -1,4 +1,6 @@
-﻿using Application.Dto.Student;
+﻿using Application.Commands.Departments.CreateDepartment;
+using Application.Commands.Departments.UpdateDepartment;
+using Application.Dto.Student;
 using Application.Dto.StudentAddress;
 using AutoMapper;
 using Core.Entities;
@@ -40,6 +42,10 @@ namespace Application.Mapping
                cfg.CreateMap<UpdateStudentCommand, Student>();
                cfg.CreateMap<CreateStudentAddress, StudentAddress>();
                cfg.CreateMap<CreateStudentDepartment, Department>();
+
+               cfg.CreateMap<CreateDepartmentCommand, Department>();
+               cfg.CreateMap<UpdateDepartmentCommand, Department>();
+               
 
                #endregion
 
