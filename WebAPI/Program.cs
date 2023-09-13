@@ -9,6 +9,7 @@ using Infrastructure.Context;
 using FluentValidation;
 using Application.Commands.Students.CreateStudent;
 using Application.Commands.Students.UpdateStudent;
+using Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,6 +40,8 @@ builder.Services.AddSwaggerGen(c =>
     c.EnableAnnotations();
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "ProductsApp API", Version = "v1" });
 });
+
+builder.Host.UseInfrastructure();
 
 var app = builder.Build();
 

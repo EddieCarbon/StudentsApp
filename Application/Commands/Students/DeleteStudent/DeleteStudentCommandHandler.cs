@@ -1,15 +1,18 @@
 using Core.Repositories;
 using MediatR;
+using Microsoft.Extensions.Logging;
 
 namespace Application.Commands.Students.DeleteStudent;
 
 internal class DeleteStudentCommandHandler : IRequestHandler<DeleteStudentCommand>
 {
     private readonly IStudentRepository _studentRepository;
+    private readonly ILogger<DeleteStudentCommandHandler> _logger;
     
-    public DeleteStudentCommandHandler(IStudentRepository studentRepository)
+    public DeleteStudentCommandHandler(IStudentRepository studentRepository, ILogger<DeleteStudentCommandHandler> logger)
     {
         _studentRepository = studentRepository;
+        _logger = logger;
     }
 
     public Task Handle(DeleteStudentCommand request, CancellationToken cancellationToken)
@@ -21,6 +24,9 @@ internal class DeleteStudentCommandHandler : IRequestHandler<DeleteStudentComman
         }
         
         _studentRepository.Delete(student);
+        
+        _logger.LogDebug($"Student with ID {request.Id} was deleted.");
+        
         return Task.CompletedTask;
     }
 }
