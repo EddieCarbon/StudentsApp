@@ -22,10 +22,18 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="NLog.Config" Version="4.7.15" />
+    <PackageReference Include="NLog.Web.AspNetCore" Version="5.3.4" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Application\Application.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\.nuget\packages\nlog.config\4.7.15\contentFiles\any\any\NLog.config">
+      <Link>Logging\NLog.config</Link>
+    </None>
   </ItemGroup>
 
 </Project>
