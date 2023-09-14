@@ -11,20 +11,21 @@ using Application;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddApplication();
+builder.Services.AddControllers();
 
 // Core Services
-builder.Services.AddScoped<IStudentRepository, StudentRepository>();
-builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+// builder.Services.AddScoped<IStudentRepository, StudentRepository>();
+// builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
 
 // Add Mediator
 var applicationAssembly = AppDomain.CurrentDomain.GetAssemblies().Single(assembly => assembly.GetName().Name == "Application");
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(applicationAssembly));
 
 // Add DB Context
-builder.Services.AddDbContext<StudentAppContext>(options =>
-   options.UseSqlServer(builder.Configuration.GetConnectionString("StudentCS")));
+//builder.Services.AddDbContext<StudentAppContext>(options =>
+//   options.UseSqlServer(builder.Configuration.GetConnectionString("StudentCS")));
 
 // Add AutoMapper
 builder.Services.AddSingleton(AutoMapperConfig.Initialize());

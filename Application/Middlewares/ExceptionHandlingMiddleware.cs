@@ -1,10 +1,9 @@
-﻿
-
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Text.Json;
+
 
 namespace Application.Middlewares
 {
@@ -48,7 +47,7 @@ namespace Application.Middlewares
         private static int GetStatusCode(Exception exception) =>
             exception switch
             {
-                GradebookException => (int)(exception as GradebookException).StatusCode,
+                StudentsException => (int)(exception as StudentsException).StatusCode,
                 ValidationException => StatusCodes.Status422UnprocessableEntity,
                 _ => StatusCodes.Status500InternalServerError
             };
