@@ -5,6 +5,7 @@ using Core.Repositories;
 using MediatR;
 using FluentValidation;
 using FluentValidation.Results;
+using Microsoft.Extensions.Logging;
 
 namespace Application.Commands.Students.CreateStudent
 {
@@ -13,12 +14,14 @@ namespace Application.Commands.Students.CreateStudent
         private readonly IStudentRepository _studentRepository;
         private readonly IMapper _mapper;
         private readonly IValidator<CreateStudentCommand> _validator;
+        private readonly ILogger<CreateStudentCommandHandler> _logger;
 
-        public CreateStudentCommandHandler(IStudentRepository studentRepository, IMapper mapper, IValidator<CreateStudentCommand> validator)
+        public CreateStudentCommandHandler(IStudentRepository studentRepository, IMapper mapper, IValidator<CreateStudentCommand> validator, ILogger<CreateStudentCommandHandler> logger)
         {
             _studentRepository = studentRepository;
             _mapper = mapper; 
             _validator = validator;
+            _logger = logger;
         }
         
         public async Task<StudentDto> Handle(CreateStudentCommand request, CancellationToken cancellationToken)

@@ -32,7 +32,8 @@
 
   <ItemGroup>
     <None Include="..\..\..\.nuget\packages\nlog.config\4.7.15\contentFiles\any\any\NLog.config">
-      <Link>Logging\NLog.config</Link>
+      <Link>Logging/NLog.config</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 
