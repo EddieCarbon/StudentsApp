@@ -37,6 +37,8 @@ namespace Application.Commands.Students.CreateStudent
 
             _studentRepository.Add(student);
             
+            _logger.LogDebug($"Student with ID {student.Id} was created.");
+            
             // TODO: Check if this is ok 
             return _mapper.Map<StudentDto>(student);
         }
