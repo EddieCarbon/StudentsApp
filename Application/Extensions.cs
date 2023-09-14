@@ -24,14 +24,14 @@ namespace Application
             services.AddScoped<IValidator<CreateDepartmentCommand>, CreateDepartmentCommandValidation>();
             services.AddScoped<IValidator<UpdateDepartmentCommand>, UpdateDepartmentCommandValidation>();
 
-            services.AddTransient<ExceptionHandlingMiddleware>();
+            //services.AddTransient<ExceptionHandlingMiddleware>();
 
             return services;
         }
 
         public static IApplicationBuilder UseApplication(this WebApplication app)
         {
-            app.UseMiddleware<ExceptionHandlingMiddleware>();
+            //app.UseMiddleware<ExceptionHandlingMiddleware>();
             return app;
         }
     }
