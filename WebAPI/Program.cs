@@ -1,13 +1,8 @@
-using Application.Commands.Departments.CreateDepartment;
-using Application.Commands.Departments.UpdateDepartment;
 using Application.Mapping;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
-using Core.Repositories;
-using Infrastructure.Repositories;
-using Infrastructure.Context;
 using Infrastructure;
 using Application;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
