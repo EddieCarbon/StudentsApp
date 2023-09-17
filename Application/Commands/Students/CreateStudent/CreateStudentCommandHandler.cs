@@ -16,7 +16,7 @@ namespace Application.Commands.Students.CreateStudent
         private readonly IValidator<CreateStudentCommand> _validator;
         private readonly ILogger<CreateStudentCommandHandler> _logger;
 
-        public CreateStudentCommandHandler(IStudentRepository studentRepository, IMapper mapper, IValidator<CreateStudentCommand> validator, ILogger<CreateStudentCommandHandler> logger)
+        public CreateStudentCommandHandler(IStudentRepository studentRepository, IMapper mapper, IValidator<CreateStudentCommand> validator , ILogger<CreateStudentCommandHandler> logger)
         {
             _studentRepository = studentRepository;
             _mapper = mapper; 
