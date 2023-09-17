@@ -1,9 +1,7 @@
-﻿
-
-using Application.Commands.Departments.CreateDepartment;
-using Application.Commands.Departments.UpdateDepartment;
-using Application.Commands.Students.CreateStudent;
-using Application.Commands.Students.UpdateStudent;
+﻿using Application.Configuration.Commands.Departments.CreateDepartment;
+using Application.Configuration.Commands.Departments.UpdateDepartment;
+using Application.Configuration.Commands.Students.CreateStudent;
+using Application.Configuration.Commands.Students.UpdateStudent;
 using Application.Middlewares;
 using FluentValidation;
 using Microsoft.AspNetCore.Builder;

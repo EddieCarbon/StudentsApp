@@ -1,8 +1,7 @@
-using Application.Mapping;
 using Microsoft.OpenApi.Models;
 using Infrastructure;
 using Application;
-
+using Application.Configuration.Mapping;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -1,7 +1,7 @@
 ﻿using System.Net;
-using Application.Commands.Departments.CreateDepartment;
 using Application.Commands.Departments.DeleteDepartment;
-using Application.Commands.Departments.UpdateDepartment;
+using Application.Configuration.Commands.Departments.CreateDepartment;
+using Application.Configuration.Commands.Departments.UpdateDepartment;
 using Application.Dto.Student;
 using Application.Queries.Departments.GetAllDepartments;
 using Application.Queries.Departments.GetDepartmentById;
