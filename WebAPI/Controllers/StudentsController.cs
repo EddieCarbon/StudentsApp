@@ -3,12 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using MediatR;
 using System.Net;
-using Application.Commands.Students.DeleteStudent;
-using Application.Queries.Students.GetAllStudents;
-using Application.Queries.Students.GetStudentByEmail;
-using Application.Queries.Students.GetStudentById;
 using Application.Configuration.Commands.Students.CreateStudent;
 using Application.Configuration.Commands.Students.UpdateStudent;
+using Application.Configuration.Queries.Students.GetAllStudents;
+using Application.Configuration.Queries.Students.GetStudentById;
+using Application.Configuration.Queries.Students.GetStudentByEmail;
+using Application.Configuration.Commands.Students.DeleteStudent;
 
 namespace WebAPI.Controllers
 {

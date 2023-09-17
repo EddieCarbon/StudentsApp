@@ -1,10 +1,10 @@
 ﻿using System.Net;
-using Application.Commands.Departments.DeleteDepartment;
 using Application.Configuration.Commands.Departments.CreateDepartment;
+using Application.Configuration.Commands.Departments.DeleteDepartment;
 using Application.Configuration.Commands.Departments.UpdateDepartment;
+using Application.Configuration.Queries.Departments.GetAllDepartments;
+using Application.Configuration.Queries.Departments.GetDepartmentById;
 using Application.Dto.Student;
-using Application.Queries.Departments.GetAllDepartments;
-using Application.Queries.Departments.GetDepartmentById;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;

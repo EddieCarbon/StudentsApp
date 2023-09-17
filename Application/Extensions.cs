@@ -2,8 +2,10 @@
 using Application.Configuration.Commands.Departments.UpdateDepartment;
 using Application.Configuration.Commands.Students.CreateStudent;
 using Application.Configuration.Commands.Students.UpdateStudent;
+using Application.Configuration.Validation;
 using Application.Middlewares;
 using FluentValidation;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
@@ -22,6 +24,7 @@ namespace Application
             services.AddScoped<IValidator<CreateDepartmentCommand>, CreateDepartmentCommandValidation>();
             services.AddScoped<IValidator<UpdateDepartmentCommand>, UpdateDepartmentCommandValidation>();
 
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(CommandValidationBehavior<,>));
             services.AddTransient<ExceptionHandlingMiddleware>();
 
             return services;

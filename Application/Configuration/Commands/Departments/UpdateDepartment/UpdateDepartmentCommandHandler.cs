@@ -1,33 +1,25 @@
 using AutoMapper;
 using Core.Repositories;
-using FluentValidation;
-using FluentValidation.Results;
 using MediatR;
+using Microsoft.Extensions.Logging;
 
 namespace Application.Configuration.Commands.Departments.UpdateDepartment;
 
 public class UpdateDepartmentCommandHandler : IRequestHandler<UpdateDepartmentCommand>
 {
     private readonly IDepartmentRepository _departmentRepository;
-    private readonly IValidator<UpdateDepartmentCommand> _validator;
     private readonly IMapper _mapper;
+    private readonly ILogger<UpdateDepartmentCommandHandler> _logger;
 
-    public UpdateDepartmentCommandHandler(IDepartmentRepository departmentRepository, IValidator<UpdateDepartmentCommand> validator, IMapper mapper)
+    public UpdateDepartmentCommandHandler(IDepartmentRepository departmentRepository, IMapper mapper, ILogger<UpdateDepartmentCommandHandler> logger)
     {
         _departmentRepository = departmentRepository;
-        _validator = validator;
         _mapper = mapper;
+        _logger = logger;
     }
 
     public async Task Handle(UpdateDepartmentCommand request, CancellationToken cancellationToken)
     {
-        ValidationResult result = await _validator.ValidateAsync(request, cancellationToken);
-        if (!result.IsValid)
-        {
-            var errorList = result.Errors.Select(x => x.ErrorMessage);
-            throw new ValidationException($"Invalid command, reasons: {string.Join(",", errorList.ToArray())}");
-        }
-
         var existingDepartment = _departmentRepository.GetById(request.DepartmentId);
         if (existingDepartment == null)
         {
@@ -35,6 +27,8 @@ public class UpdateDepartmentCommandHandler : IRequestHandler<UpdateDepartmentCo
         }
 
         var department = _mapper.Map(request, existingDepartment);
+
+        _logger.LogDebug($"Update departmetnt with ID  {department.DepartmentId}");
 
         _departmentRepository.Update(department);
     }
