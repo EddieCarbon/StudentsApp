@@ -1,7 +1,6 @@
 
 using Application.Configuration.Mapping;
 using Application.Configuration.Queries.Students.GetAllStudents;
-using Application.Dto.Student;
 using AutoMapper;
 using Core.Entities;
 using Core.Repositories;
@@ -18,64 +17,94 @@ public class GetStudentsQueryHandlerTest
     public GetStudentsQueryHandlerTest()
     {
         _studentReadOnlyRepositoryMock = new Mock<IStudentRepository>();
-        _mapper = MapperHelper.CreateMapper( new AutoMapperConfig().Initialize());
+        _mapper = AutoMapperConfig.Initialize();
     }
 
     [Fact]
     public async Task Handle_Should_CallGetAllOnRepository_WhenGetStudentsQuery()
     {
         // Arrange
+        _studentReadOnlyRepositoryMock
+            .Setup(x => x.GetAll())
+            .Returns(new List<Student>()
+            .AsQueryable());
         
-        _studentReadOnlyRepositoryMock.Setup(
-            x => x.GetAll(
-                It.IsAny<CancellationToken>())).Returns(Enumerable.Empty<Student>);
-
         var handler = new GetAllStudentsQueryHandler(
             _studentReadOnlyRepositoryMock.Object, _mapper);
         
         // Act
-
         await handler.Handle(new GetAllStudentsQuery(), default);
         
         // Assert
-        
         _studentReadOnlyRepositoryMock.Verify(
-            x => x.GetAll(It.IsAny<CancellationToken>()),
-            Times.Once);
+            x => x.GetAll(), Times.Once);
     }
 
     [Fact]
     public async Task Handle_Should_ReturnNotEmptyCollection_WhenGetStudentsQuery()
     {
         // Arrange
-        var students = new List<Student>()
+
+        var Students = new List<Student>()
         {
             new Student()
             {
-                Id = 2 ,
+                 Id = 1,
                 Name = "Kuba",
                 Surname = "Tomiczek",
-                Email = "tomiczekkuba01@gmail.com",
-                DateOfBirth = DateTime.Today,
-                StartingStudyYear = 2022,
+                Email = "tomiczekkuba@gmail.com",
+                DateOfBirth = DateTime.Now,
+                StartingStudyYear = 2021,
+                Address = new StudentAddress
+                {
+                    StudentAddressId = 1,
+                    Street = "Wesola",
+                    Number = 3,
+                    City = "Zywiec",
+                    ZipCode = 12345,
+                    Country = "Poland",
+                },
+                CurrentDepartmentId = 1,
+                Department = new Department
+                {
+                    DepartmentId = 1,
+                    DepartmentName = "NameDepartment",
+                    BuildingNumber = "3a",
+                }
             },
             new Student()
             {
-                Id = 2 ,
-                Name = "Michal",
+                Id = 2,
+                Name = "Kuba",
                 Surname = "Tomiczek",
-                Email = "michaltomiczek@gmail.com",
-                DateOfBirth = DateTime.Today,
+                Email = "tomiczekkuba@gmail.com",
+                DateOfBirth = DateTime.Now,
                 StartingStudyYear = 2021,
-            }
+                Address = new StudentAddress
+                {
+                    StudentAddressId = 2,
+                    Street = "Wesola",
+                    Number = 3,
+                    City = "Zywiec",
+                    ZipCode = 12345,
+                    Country = "Poland",
+                },
+                CurrentDepartmentId = 2,
+                Department = new Department
+                {
+                    DepartmentId = 2,
+                    DepartmentName = "NameDepartment",
+                    BuildingNumber = "3a",
+                }
+            },
         };
+        var querableStudents = Students.AsQueryable();
+
+        _studentReadOnlyRepositoryMock
+            .Setup(x => x.GetAll())
+            .Returns(querableStudents);
         
-        _studentReadOnlyRepositoryMock.Setup(
-            x => x.GetAll(
-                It.IsAny<CancellationToken>())).Returns(students);
-        
-        var handler = new GetAllStudentsQueryHandler(
-            _studentReadOnlyRepositoryMock.Object, _mapper);
+        var handler = new GetAllStudentsQueryHandler(_studentReadOnlyRepositoryMock.Object, _mapper);
         
         // Act
         var studentsDto = await handler.Handle(new GetAllStudentsQuery(), default);
