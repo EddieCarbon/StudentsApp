@@ -1,11 +1,7 @@
 ﻿using Core.Repositories;
 using Infrastructure.Context;
 using Core.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories
 {
@@ -18,6 +14,11 @@ namespace Infrastructure.Repositories
             _context = context;
         }
 
+        public Task<bool> IsAlreadyExistAsync(string email, CancellationToken cancellation = default)
+        {
+            return _context.Students.AnyAsync(x => x.Email == email, cancellation);
+        }
+
         public IQueryable<Student> GetAll()
         {
             return _context.Students;
@@ -25,7 +26,6 @@ namespace Infrastructure.Repositories
 
         public Student GetById(int Id)
             => _context.Students.SingleOrDefault(x => x.Id == Id);
-
 
         public Student Add(Student student)
         {

@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Application.Configuration.Commands.Students.CreateStudent
 {
-    internal class CreateStudentCommandHandler : IRequestHandler<CreateStudentCommand, StudentDto>
+    public class CreateStudentCommandHandler : IRequestHandler<CreateStudentCommand, StudentDto>
     {
         private readonly IStudentRepository _studentRepository;
         private readonly IMapper _mapper;
@@ -22,6 +22,12 @@ namespace Application.Configuration.Commands.Students.CreateStudent
 
         public async Task<StudentDto> Handle(CreateStudentCommand request, CancellationToken cancellationToken)
         {
+            bool isAlreadyExist = await _studentRepository.IsAlreadyExistAsync(request.Email, cancellationToken);
+            if (isAlreadyExist)
+            {
+                throw new Exception("Student already exists.");
+            }
+
             var student = _mapper.Map<Student>(request);
 
             _studentRepository.Add(student);
