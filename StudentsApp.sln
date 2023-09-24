@@ -7,13 +7,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Core\Core.csproj", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "Application\Application.csproj", "{7581B9B4-01AE-4402-840D-07F488881F02}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{B7B2DD85-8946-4510-91E6-AC4F2353D304}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{B7B2DD85-8946-4510-91E6-AC4F2353D304}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAPI", "WebAPI\WebAPI.csproj", "{5DC73194-4329-4973-96EE-7AA714260F7B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAPI", "WebAPI\WebAPI.csproj", "{5DC73194-4329-4973-96EE-7AA714260F7B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{00FB76C7-9958-4CC0-BDE3-249C8EA74481}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentsApp.UnitTests", "StudentsApp.UnitTests\StudentsApp.UnitTests.csproj", "{C4F13E88-FCFC-4F17-95E0-49ED5FADAB95}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudentsApp.UnitTests", "StudentsApp.UnitTests\StudentsApp.UnitTests.csproj", "{C4F13E88-FCFC-4F17-95E0-49ED5FADAB95}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,10 +45,10 @@ Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {D42A9AE8-37D7-4E7E-9776-6F08A6BD945D}
-	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{C4F13E88-FCFC-4F17-95E0-49ED5FADAB95} = {00FB76C7-9958-4CC0-BDE3-249C8EA74481}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D42A9AE8-37D7-4E7E-9776-6F08A6BD945D}
 	EndGlobalSection
 EndGlobal
