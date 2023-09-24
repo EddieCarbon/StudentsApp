@@ -1,6 +1,4 @@
 ﻿using Application.Dto.StudentAddress;
-using Application.Dto.StudentCourse;
-using Application.Dto.StudentDepartment;
 
 namespace Application.Dto.Student;
 

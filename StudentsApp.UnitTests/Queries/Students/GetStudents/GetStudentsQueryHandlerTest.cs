@@ -44,7 +44,6 @@ public class GetStudentsQueryHandlerTest
     public async Task Handle_Should_ReturnNotEmptyCollection_WhenGetStudentsQuery()
     {
         // Arrange
-
         var Students = new List<Student>()
         {
             new Student()
@@ -98,6 +97,7 @@ public class GetStudentsQueryHandlerTest
                 }
             },
         };
+        
         var querableStudents = Students.AsQueryable();
 
         _studentReadOnlyRepositoryMock
