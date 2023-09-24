@@ -1,7 +1,6 @@
 using System.Net;
 using Application.Dto.Student;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.VisualStudio.TestPlatform.TestHost;
 using FluentAssertions;
 using Infrastructure.Context;
 using Microsoft.Extensions.DependencyInjection;
@@ -29,12 +28,12 @@ public class StudentControllerTests : IClassFixture<WebApplicationFactory<Progra
         var dbContext = scope.ServiceProvider.GetService<StudentAppContext>();
 
         // Act
-        var response = await _httpClient.GetAsync("/api/Student");
+        var response = await _httpClient.GetAsync("/api/Students");
         var content = await response.Content.ReadAsStringAsync();
-        var result = JsonConvert.DeserializeObject<IEnumerable<StudentDto>>(content);
+        var result = JsonConvert.DeserializeObject<ListStudentsDto>(content);
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
-        result.Should().NotBeEmpty();
+        result.Should().NotBeNull();
     }
 }

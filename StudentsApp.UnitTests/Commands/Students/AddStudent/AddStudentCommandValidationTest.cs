@@ -1,5 +1,4 @@
-﻿
-using Application.Configuration.Commands.Students.CreateStudent;
+﻿using Application.Configuration.Commands.Students.CreateStudent;
 using Core.Repositories;
 using FluentValidation.TestHelper;
 using Moq;
