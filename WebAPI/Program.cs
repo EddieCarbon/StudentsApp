@@ -6,6 +6,7 @@ using Application.Configuration.Mapping;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddAuthentication();
 builder.Services.AddApplication();
 builder.Services.AddControllers();
 
@@ -16,6 +17,7 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(applicatio
 // Add AutoMapper
 builder.Services.AddSingleton(AutoMapperConfig.Initialize());
 
+// Add Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
