@@ -1,27 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Core.Entities;
+﻿using Core.Entities;
+using Infrastructure.Identity;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Context;
 
-public class StudentAppContext : DbContext
+public class StudentAppContext : IdentityDbContext<ApplicationUser>
 {
-    public StudentAppContext(DbContextOptions options) : base(options)
+    public StudentAppContext(DbContextOptions<StudentAppContext> options) : base(options)
     {
     }
-
+    
     public DbSet<Student> Students { get; set; }
     public DbSet<Department> Departments { get; set; }
-
-
+    
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         #region Product
-
+        base.OnModelCreating(modelBuilder);
+        modelBuilder.Ignore <IdentityUserLogin<string>>();
+        modelBuilder.Ignore <IdentityUserRole<string>>();
+        modelBuilder.Ignore<IdentityUserClaim<string>>();
+        modelBuilder.Ignore<IdentityUserToken<string>>();
+        modelBuilder.Ignore<IdentityUser<string>>();
+        modelBuilder.Ignore<ApplicationUser>();
+        
         modelBuilder.Entity<Student>().ToTable("Students");
         modelBuilder.Entity<Department>().ToTable("Department");
         modelBuilder.Entity<Student>().HasKey(s => s.Id);
