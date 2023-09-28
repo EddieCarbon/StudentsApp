@@ -2,11 +2,12 @@ using Microsoft.OpenApi.Models;
 using Infrastructure;
 using Application;
 using Application.Configuration.Mapping;
+using WebAPI;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddInfrastructure(builder.Configuration);
-builder.Services.AddAuthentication();
+builder.Services.AddAuthentication(builder.Configuration);
 builder.Services.AddApplication();
 builder.Services.AddControllers();
 
