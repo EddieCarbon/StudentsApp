@@ -27,8 +27,9 @@ namespace Infrastructure.Repositories
         public Student GetById(int Id)
             => _context.Students.SingleOrDefault(x => x.Id == Id);
 
-        public Student Add(Student student)
+        public Student Add(Student student, string userId)
         {
+            student.UserId = userId;
             _context.Students.Add(student);
             _context.SaveChanges();
             return student;

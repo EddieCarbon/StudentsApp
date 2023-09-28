@@ -37,7 +37,7 @@ namespace StudentsApp.UnitTests.Commands.Students.AddStudent
             };
 
             _studentRepositoryMock
-                .Setup(x => x.Add(It.IsAny<Student>()));
+                .Setup(x => x.Add(It.IsAny<Student>(), It.IsAny<string>()));
 
             _studentRepositoryMock
                 .Setup(x => x.IsAlreadyExistAsync(
@@ -55,7 +55,7 @@ namespace StudentsApp.UnitTests.Commands.Students.AddStudent
 
             // Assert
             _studentRepositoryMock.Verify(
-                x => x.Add(It.Is<Student>(x => x.Id == studentDto.Id)),
+                x => x.Add(It.Is<Student>(x => x.Id == studentDto.Id), It.IsAny<string>()),
                 Times.Once);
         }
 
@@ -73,7 +73,7 @@ namespace StudentsApp.UnitTests.Commands.Students.AddStudent
             };
 
             _studentRepositoryMock
-                .Setup(x => x.Add(It.IsAny<Student>()));
+                .Setup(x => x.Add(It.IsAny<Student>(), It.IsAny<string>()));
 
             _studentRepositoryMock
                 .Setup(x => x.IsAlreadyExistAsync(

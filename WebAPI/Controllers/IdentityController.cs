@@ -1,14 +1,12 @@
-﻿
-using System.IdentityModel.Tokens.Jwt;
+﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Application.Configuration.Identity.Models;
 using Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using WebAPI.Models;
 using WebAPI.Wrappers;
-using JwtRegisteredClaimNames = Microsoft.IdentityModel.JsonWebTokens.JwtRegisteredClaimNames;
 
 namespace WebAPI.Controllers
 {
@@ -27,7 +25,7 @@ namespace WebAPI.Controllers
 
         [HttpPost]
         [Route("Register")]
-        public async Task<IActionResult> Register(RegisterModel register)
+        public async Task<IActionResult> Register(RegisterUserModel register)
         {
             var userExists = await _userManager.FindByNameAsync(register.Username);
             if (userExists != null)
@@ -66,15 +64,16 @@ namespace WebAPI.Controllers
         
         [HttpPost]
         [Route("Login")]
-        public async Task<IActionResult> Login(LoginModel login)
+        public async Task<IActionResult> Login(LoginUserModel login)
         {
             var user = await _userManager.FindByNameAsync(login.Username);
             if (user != null && await _userManager.CheckPasswordAsync(user, login.Password))
             {
                 var authClaims = new List<Claim>
                 {
-                    new (ClaimTypes.Name, user.UserName),
-                    new (JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                    new(ClaimTypes.NameIdentifier, user.Id),
+                    new(ClaimTypes.Name, user.UserName),
+                    new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
                 };
                 
                 var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));

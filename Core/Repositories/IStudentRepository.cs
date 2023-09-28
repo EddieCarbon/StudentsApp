@@ -7,7 +7,7 @@ public interface IStudentRepository
     Student GetById(int Id);
     IQueryable<Student> GetAll();
     Task<bool> IsAlreadyExistAsync(string email, CancellationToken cancellation = default);
-    Student Add(Student student);
+    Student Add(Student student, string userId);
     void Update(Student student);
     void Delete(Student student);
 }

@@ -1,6 +1,6 @@
-namespace WebAPI.Models;
+namespace Application.Configuration.Identity.Models;
 
-public class RegisterModel
+public class RegisterUserModel
 {
     public string Username { get; set; }
     public string Email { get; set; }

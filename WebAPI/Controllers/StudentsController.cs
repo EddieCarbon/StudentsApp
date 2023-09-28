@@ -3,16 +3,19 @@ using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using MediatR;
 using System.Net;
+using System.Security.Claims;
 using Application.Configuration.Commands.Students.CreateStudent;
 using Application.Configuration.Commands.Students.UpdateStudent;
 using Application.Configuration.Queries.Students.GetAllStudents;
 using Application.Configuration.Queries.Students.GetStudentById;
 using Application.Configuration.Queries.Students.GetStudentByEmail;
 using Application.Configuration.Commands.Students.DeleteStudent;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class StudentsController : ControllerBase
     {
@@ -24,6 +27,7 @@ namespace WebAPI.Controllers
         }
         
         [SwaggerOperation(Summary = "Retrieves all students")]
+        [AllowAnonymous]
         [HttpGet]
         [ProducesResponseType(typeof(ListStudentsDto), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> Get()
@@ -33,6 +37,7 @@ namespace WebAPI.Controllers
         }
 
         [SwaggerOperation(Summary = "Retrieves a specific student by unique ID")]
+        [AllowAnonymous]
         [HttpGet("{Id}")]
         [ProducesResponseType(typeof(StudentDetailDto), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> Get(int Id)
@@ -55,6 +60,8 @@ namespace WebAPI.Controllers
         [ProducesResponseType((int)HttpStatusCode.Created)]
         public async Task<IActionResult> Create(CreateStudentCommand command)
         {
+            // User.FindFirstValue(ClaimTypes.NameIdentifier)
+            command.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var result = await _mediator.Send(command);
             return CreatedAtAction(nameof(Get), new { id = result.Id }, result);
         }

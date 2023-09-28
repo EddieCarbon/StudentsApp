@@ -1,4 +1,5 @@
-﻿using Application.Dto.Student;
+﻿using System.Security.Claims;
+using Application.Dto.Student;
 using AutoMapper;
 using Core.Entities;
 using Core.Repositories;
@@ -30,7 +31,7 @@ namespace Application.Configuration.Commands.Students.CreateStudent
 
             var student = _mapper.Map<Student>(request);
 
-            _studentRepository.Add(student);
+            _studentRepository.Add(student, request.UserId);
 
             _logger.LogDebug($"Student with ID {student.Id} was created.");
 
