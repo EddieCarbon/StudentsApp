@@ -1,5 +1,6 @@
 using Application.Dto.Student;
 using AutoMapper;
+using Core.Entities;
 using Core.Repositories;
 using MediatR;
 
@@ -20,7 +21,7 @@ internal class GetAllStudentsQueryHandler : IRequestHandler<GetAllStudentsQuery,
     {
         var students = _studentRepository.GetAll();
 
-        var studentDto = _mapper.Map<ListStudentsDto>(students);
+        var studentDto = _mapper.Map<IEnumerable<Student>, ListStudentsDto>(students);
 
         return Task.FromResult(studentDto);
     }

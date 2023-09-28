@@ -19,10 +19,8 @@ namespace Infrastructure.Repositories
             return _context.Students.AnyAsync(x => x.Email == email, cancellation);
         }
 
-        public IQueryable<Student> GetAll()
-        {
-            return _context.Students;
-        }
+        public IEnumerable<Student> GetAll()
+            => _context.Students.ToList();
 
         public Student GetById(int Id)
             => _context.Students.SingleOrDefault(x => x.Id == Id);

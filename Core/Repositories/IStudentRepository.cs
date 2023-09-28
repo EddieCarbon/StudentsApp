@@ -5,7 +5,7 @@ namespace Core.Repositories;
 public interface IStudentRepository
 {
     Student GetById(int Id);
-    IQueryable<Student> GetAll();
+    IEnumerable<Student> GetAll();
     Task<bool> IsAlreadyExistAsync(string email, CancellationToken cancellation = default);
     Student Add(Student student, string userId);
     void Update(Student student);
