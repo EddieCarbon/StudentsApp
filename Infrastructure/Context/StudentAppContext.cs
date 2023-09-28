@@ -18,7 +18,6 @@ public class StudentAppContext : IdentityDbContext<ApplicationUser>
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         #region Product
-        // The entity type 'IdentityUserLogin<string>' requires a primary key to be defined. If you intended to use a keyless entity type, call 'HasNoKey' in 'OnModelCreating'. For more information on keyless entity types, see https://go.microsoft.com/fwlink/?linkid=2141943.
         base.OnModelCreating(modelBuilder);
         
         modelBuilder.Entity<Student>().ToTable("Students");
