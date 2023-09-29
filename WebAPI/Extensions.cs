@@ -24,13 +24,14 @@ public static class Extensions
         {
             option.TokenValidationParameters = new TokenValidationParameters()
             {
-                ValidateIssuer = true,
-                ValidateAudience = true,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Secret"] ?? throw new InvalidOperationException("Bearer is nul")))
+                ValidateIssuer = false,
+                ValidateAudience = false,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Secret"] ??
+                    throw new InvalidOperationException("Bearer is nul")))
             };
         });
 
-        //services.AddAuthorization();
+        services.AddAuthorization();
 
         return services;
     }
