@@ -9,7 +9,7 @@ namespace WebAPI;
 
 public static class Extensions
 {
-    public static IServiceCollection AddAuthentication(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddIdentityService(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddIdentity<ApplicationUser, IdentityRole>()
             .AddEntityFrameworkStores<StudentAppContext>()
