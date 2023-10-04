@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(StudentAppContext))]
-    [Migration("20231004083411_Init")]
-    partial class Init
+    [Migration("20230928122823_AddIdentityTabless")]
+    partial class AddIdentityTabless
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -43,7 +43,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("DepartmentId");
 
-                    b.ToTable("Departments", (string)null);
+                    b.ToTable("Department", (string)null);
                 });
 
             modelBuilder.Entity("Core.Entities.Student", b =>
