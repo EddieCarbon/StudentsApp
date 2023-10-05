@@ -1,4 +1,5 @@
-﻿using Application.Dto.Student;
+﻿using System.Security.Claims;
+using Application.Dto.Student;
 using AutoMapper;
 using Core.Entities;
 using Core.Repositories;
@@ -13,7 +14,7 @@ namespace Application.Configuration.Commands.Students.CreateStudent
         private readonly IMapper _mapper;
         private readonly ILogger<CreateStudentCommandHandler> _logger;
 
-        public CreateStudentCommandHandler(IStudentRepository studentRepository, IMapper mapper, ILogger<CreateStudentCommandHandler> logger)
+        public CreateStudentCommandHandler(IStudentRepository studentRepository, IMapper mapper, ILogger<CreateStudentCommandHandler> logger) : this()
         {
             _studentRepository = studentRepository;
             _mapper = mapper;
@@ -27,10 +28,10 @@ namespace Application.Configuration.Commands.Students.CreateStudent
             {
                 throw new Exception("Student already exists.");
             }
-
+            
             var student = _mapper.Map<Student>(request);
 
-            _studentRepository.Add(student, userId);
+            _studentRepository.Add(student);
 
             _logger.LogDebug($"Student with ID {student.Id} was created.");
 
