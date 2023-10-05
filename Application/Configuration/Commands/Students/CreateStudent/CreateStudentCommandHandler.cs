@@ -28,7 +28,8 @@ namespace Application.Configuration.Commands.Students.CreateStudent
             {
                 throw new Exception("Student already exists.");
             }
-            
+            var userId = request.UserId;
+
             var student = _mapper.Map<Student>(request);
 
             _studentRepository.Add(student);

@@ -61,6 +61,7 @@ namespace WebAPI.Controllers
         public async Task<IActionResult> Create(CreateStudentCommand command)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            command.UserId = userId.ToString();
             var result = await _mediator.Send(command);
             return CreatedAtAction(nameof(Get), new { id = result.Id }, result);
   
