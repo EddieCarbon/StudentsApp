@@ -60,9 +60,9 @@ namespace WebAPI.Controllers
         [ProducesResponseType((int)HttpStatusCode.Created)]
         public async Task<IActionResult> Create(CreateStudentCommand command)
         {
-            // User.FindFirstValue(ClaimTypes.NameIdentifier)
-            command.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var result = await _mediator.Send(command);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            
+            var result = await _mediator.Send(new CreateStudentCommand(userId));
             return CreatedAtAction(nameof(Get), new { id = result.Id }, result);
         }
 

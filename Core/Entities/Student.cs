@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
+
 
 namespace Core.Entities;
+
 public class Student
 {
     public int Id { get; set; }
@@ -22,7 +18,6 @@ public class Student
     public StudentAddress Address { get; set; }
     public int CurrentDepartmentId { get; set; }
     public Department Department { get; set; }
-    /*public IList<StudentCourse> StudentCourses { get; set; }*/
 }
 
 

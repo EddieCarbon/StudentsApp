@@ -4,9 +4,8 @@ using MediatR;
 
 namespace Application.Configuration.Commands.Students.CreateStudent
 {
-    public class CreateStudentCommand : IRequest<StudentDto>
+    public class CreateStudentCommand(string userId) : IRequest<StudentDto>
     {
-        public string UserId { get; set; } // New
         public string Name { get; set; }
         public string Surname { get; set; }
         public string Email { get; set; }
