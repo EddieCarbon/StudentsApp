@@ -18,11 +18,6 @@ public class StudentAppContext : IdentityDbContext<ApplicationUser>
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<IdentityUserLogin<string>>().HasNoKey();
-        modelBuilder.Entity<IdentityUserToken<string>>().HasNoKey();
-        modelBuilder.Entity<IdentityUserRole<string>>().HasNoKey();
-        
-        
         modelBuilder.Entity<Student>().ToTable("Students");
         modelBuilder.Entity<Department>().ToTable("Departments");
 
@@ -61,6 +56,8 @@ public class StudentAppContext : IdentityDbContext<ApplicationUser>
             .HasOne<Department>(s => s.Department)
             .WithMany(d => d.Students)
             .HasForeignKey(s => s.CurrentDepartmentId);
+        
+        base.OnModelCreating(modelBuilder);
     }
 }
 
