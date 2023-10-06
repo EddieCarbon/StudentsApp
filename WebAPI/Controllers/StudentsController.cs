@@ -11,6 +11,9 @@ using Application.Configuration.Queries.Students.GetStudentById;
 using Application.Configuration.Queries.Students.GetStudentByEmail;
 using Application.Configuration.Commands.Students.DeleteStudent;
 using Microsoft.AspNetCore.Authorization;
+using Application.Configuration.Queries.Students;
+using WebAPI.Wrappers;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace WebAPI.Controllers
 {
@@ -72,6 +75,13 @@ namespace WebAPI.Controllers
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         public async Task<IActionResult> Update(UpdateStudentCommand command)
         {
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier).ToString();
+            var userOwnsPost = await _mediator.Send(new UserOwnStudentQuery(command.Id, userId));
+            if (!userOwnsPost) {
+                return BadRequest(new Response<bool> { Succeeded = false, Message = "You do not own this student" });
+            }
+
+
             await _mediator.Send(command);
             return NoContent();
         }
@@ -82,6 +92,13 @@ namespace WebAPI.Controllers
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         public async Task<IActionResult> Delete(int Id)
         {
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier).ToString();
+            var userOwnsPost = await _mediator.Send(new UserOwnStudentQuery(Id, userId));
+            if (!userOwnsPost)
+            {
+                return BadRequest(new Response<bool> { Succeeded = false, Message = "You do not own this student" });
+            }
+
             await _mediator.Send(new DeleteStudentCommand(Id));
             return NoContent();
         }
