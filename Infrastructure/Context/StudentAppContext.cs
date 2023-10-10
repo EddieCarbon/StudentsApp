@@ -18,27 +18,27 @@ public class StudentAppContext : IdentityDbContext<ApplicationUser>
     public DbSet<Student> Students { get; set; }
     public DbSet<Department> Departments { get; set; }
 
-    //public async Task<int> SaveChangesAsync()
-    //{
-    //    var entries = ChangeTracker
-    //        .Entries()
-    //        .Where(e => e.Entity is AuditableEntity && (e.State == EntityState.Added || e.State == EntityState.Modified));
+    public async Task<int> SaveChangesAsync()
+    {
+        var entries = ChangeTracker
+            .Entries()
+            .Where(e => e.Entity is AuditableEntity && (e.State == EntityState.Added || e.State == EntityState.Modified));
 
-    //    foreach (var entityEntry in entries)
-    //    {
-    //        ((AuditableEntity)entityEntry.Entity).lastModified = DateTime.UtcNow;
-    //        ((AuditableEntity)entityEntry.Entity).LastModifiedBy = _userService.GetUser();
+        foreach (var entityEntry in entries)
+        {
+            ((AuditableEntity)entityEntry.Entity).lastModified = DateTime.UtcNow;
+            ((AuditableEntity)entityEntry.Entity).LastModifiedBy = _userService.GetUser();
 
-    //        if (entityEntry.State == EntityState.Added)
-    //        {
-    //            ((AuditableEntity)entityEntry.Entity).Created = DateTime.UtcNow;
-    //            ((AuditableEntity)entityEntry.Entity).CreatedBy = _userService.GetUser();
-    //        }
-    //    }
+            if (entityEntry.State == EntityState.Added)
+            {
+                ((AuditableEntity)entityEntry.Entity).Created = DateTime.UtcNow;
+                ((AuditableEntity)entityEntry.Entity).CreatedBy = _userService.GetUser();
+            }
+        }
 
-    //    return await base.SaveChangesAsync();
-    //}
-    
+        return await base.SaveChangesAsync();
+    }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Student>().ToTable("Students");
