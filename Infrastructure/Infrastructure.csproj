@@ -46,15 +46,12 @@
     </None>
   </ItemGroup>
 
-	<ItemGroup>
-		<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
-			<_Parameter1>StudentsApp.UnitTests</_Parameter1>
-		</AssemblyAttribute>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Migrations\" />
-	</ItemGroup>
-
-
+  <ItemGroup>	    
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+      <_Parameter1>StudentsApp.UnitTests</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
 </Project>

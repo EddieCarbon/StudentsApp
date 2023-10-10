@@ -97,7 +97,7 @@ namespace WebAPI.Controllers
         {
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier).ToString();
             var userOwnsPost = await _mediator.Send(new UserOwnStudentQuery(Id, userId));
-            var isAdmin = User.FindFirstValue(ClaimTypes.Role).Contains(UserRoles.Admin)
+            var isAdmin = User.FindFirstValue(ClaimTypes.Role).Contains(UserRoles.Admin);
 
             if (!isAdmin && !userOwnsPost)
             {
