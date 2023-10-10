@@ -11,9 +11,8 @@ using Application.Configuration.Queries.Students.GetStudentById;
 using Application.Configuration.Queries.Students.GetStudentByEmail;
 using Application.Configuration.Commands.Students.DeleteStudent;
 using Microsoft.AspNetCore.Authorization;
-using Application.Configuration.Queries.Students;
 using WebAPI.Wrappers;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using Infrastructure.Identity;
 
 namespace WebAPI.Controllers
 {
@@ -30,6 +29,7 @@ namespace WebAPI.Controllers
         }
         
         [SwaggerOperation(Summary = "Retrieves all students")]
+        [Authorize(Roles = UserRoles.Admin)]
         [AllowAnonymous]
         [HttpGet]
         [ProducesResponseType(typeof(ListStudentsDto), (int)HttpStatusCode.OK)]
@@ -59,6 +59,7 @@ namespace WebAPI.Controllers
         }
 
         [SwaggerOperation(Summary = "Create a new student")]
+        [Authorize(Roles = UserRoles.User)]
         [HttpPost]
         [ProducesResponseType((int)HttpStatusCode.Created)]
         public async Task<IActionResult> Create(CreateStudentCommand command)
@@ -71,6 +72,7 @@ namespace WebAPI.Controllers
         }
 
         [SwaggerOperation(Summary = "Update a existing student")]
+        [Authorize(Roles = UserRoles.User)]
         [HttpPut]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         public async Task<IActionResult> Update(UpdateStudentCommand command)
@@ -88,13 +90,16 @@ namespace WebAPI.Controllers
 
 
         [SwaggerOperation(Summary = "Delete a specific student")]
+        [Authorize(Roles = UserRoles.User)]
         [HttpDelete("{Id}")]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         public async Task<IActionResult> Delete(int Id)
         {
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier).ToString();
             var userOwnsPost = await _mediator.Send(new UserOwnStudentQuery(Id, userId));
-            if (!userOwnsPost)
+            var isAdmin = User.FindFirstValue(ClaimTypes.Role).Contains(UserRoles.Admin)
+
+            if (!isAdmin && !userOwnsPost)
             {
                 return BadRequest(new Response<bool> { Succeeded = false, Message = "You do not own this student" });
             }

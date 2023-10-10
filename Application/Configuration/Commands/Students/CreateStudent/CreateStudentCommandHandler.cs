@@ -1,14 +1,14 @@
-﻿using System.Security.Claims;
-using Application.Dto.Student;
+﻿using Application.Dto.Student;
 using AutoMapper;
 using Core.Entities;
 using Core.Repositories;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
+
 namespace Application.Configuration.Commands.Students.CreateStudent
 {
-    public class CreateStudentCommandHandler() : IRequestHandler<CreateStudentCommand, StudentDto>
+    internal class CreateStudentCommandHandler() : IRequestHandler<CreateStudentCommand, StudentDto>
     {
         private readonly IStudentRepository _studentRepository;
         private readonly IMapper _mapper;
@@ -28,7 +28,6 @@ namespace Application.Configuration.Commands.Students.CreateStudent
             {
                 throw new Exception("Student already exists.");
             }
-            var userId = request.UserId;
 
             var student = _mapper.Map<Student>(request);
 

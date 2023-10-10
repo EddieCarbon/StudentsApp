@@ -15,7 +15,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{00FB76C7
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudentsApp.UnitTests", "StudentsApp.UnitTests\StudentsApp.UnitTests.csproj", "{C4F13E88-FCFC-4F17-95E0-49ED5FADAB95}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentsApp.IntegrationTest", "StudentsApp.IntegrationTest\StudentsApp.IntegrationTest.csproj", "{0B2CCD48-274F-47C6-B8B3-2C4C467267B6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudentsApp.IntegrationTest", "StudentsApp.IntegrationTest\StudentsApp.IntegrationTest.csproj", "{0B2CCD48-274F-47C6-B8B3-2C4C467267B6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebClient", "WebClient\WebClient.csproj", "{42FF04D6-8F56-474A-9ADB-58694E1D8A78}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,6 +49,10 @@ Global
 		{0B2CCD48-274F-47C6-B8B3-2C4C467267B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0B2CCD48-274F-47C6-B8B3-2C4C467267B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0B2CCD48-274F-47C6-B8B3-2C4C467267B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42FF04D6-8F56-474A-9ADB-58694E1D8A78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42FF04D6-8F56-474A-9ADB-58694E1D8A78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42FF04D6-8F56-474A-9ADB-58694E1D8A78}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42FF04D6-8F56-474A-9ADB-58694E1D8A78}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

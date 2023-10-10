@@ -1,4 +1,5 @@
 using System.Text;
+using Application.Configuration.Services;
 using Infrastructure.Context;
 using Infrastructure.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -32,6 +33,8 @@ public static class Extensions
         });
 
         services.AddAuthorization();
+
+        services.AddTransient<UserResolverService>();
 
         return services;
     }

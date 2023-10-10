@@ -15,6 +15,5 @@ namespace Application.Configuration.Commands.Students.CreateStudent
 
         public CreateStudentAddress CreateStudentAddress { get; set; }
         public int CurrentDepartmentId { get; set; }
-        
     }
 }

@@ -1,4 +1,5 @@
-﻿using Core.Entities;
+﻿using Application.Configuration.Services;
+using Core.Entities;
 using Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -8,13 +9,35 @@ namespace Infrastructure.Context;
 
 public class StudentAppContext : IdentityDbContext<ApplicationUser>
 {
-    public StudentAppContext(DbContextOptions<StudentAppContext> options) 
-        : base(options)
+    private readonly UserResolverService _userService;
+    public StudentAppContext(DbContextOptions<StudentAppContext> options, UserResolverService userService) : base(options)
     {
+        _userService = userService;
     }
     
     public DbSet<Student> Students { get; set; }
     public DbSet<Department> Departments { get; set; }
+
+    //public async Task<int> SaveChangesAsync()
+    //{
+    //    var entries = ChangeTracker
+    //        .Entries()
+    //        .Where(e => e.Entity is AuditableEntity && (e.State == EntityState.Added || e.State == EntityState.Modified));
+
+    //    foreach (var entityEntry in entries)
+    //    {
+    //        ((AuditableEntity)entityEntry.Entity).lastModified = DateTime.UtcNow;
+    //        ((AuditableEntity)entityEntry.Entity).LastModifiedBy = _userService.GetUser();
+
+    //        if (entityEntry.State == EntityState.Added)
+    //        {
+    //            ((AuditableEntity)entityEntry.Entity).Created = DateTime.UtcNow;
+    //            ((AuditableEntity)entityEntry.Entity).CreatedBy = _userService.GetUser();
+    //        }
+    //    }
+
+    //    return await base.SaveChangesAsync();
+    //}
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
