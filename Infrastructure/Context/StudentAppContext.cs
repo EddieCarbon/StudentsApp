@@ -1,7 +1,7 @@
 ﻿using Application.Configuration.Services;
 using Core.Entities;
 using Infrastructure.Identity;
-using Microsoft.AspNetCore.Identity;
+
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 

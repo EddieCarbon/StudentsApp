@@ -29,4 +29,6 @@ public class DeleteDepartmentCommandHandler : IRequestHandler<DeleteDepartmentCo
 
         return Task.CompletedTask;
     }
+
+    
 }
