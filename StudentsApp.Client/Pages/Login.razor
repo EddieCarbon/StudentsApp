@@ -1,0 +1,34 @@
+﻿@page "/login"
+@using System.Text.Json;
+@inject HttpClient Http
+@inject AuthenticationStateProvider AuthStateProvider
+@inject ILocalStorageService LocalStorage
+
+<h3>Login</h3>
+
+<EditForm Model="user" OnSubmit="HandleLogin">
+    <label for="username">Name</label>
+    <InputText id="username" @bind-Value="user.Username" />
+
+    <label for="password">Password</label>
+    <InputText id="password" @bind-Value="user.Password" typeof="password" />
+    <button type="submit" class="btn btn-primary">Login</button>
+</EditForm>
+
+@code {
+    LoginUserModel user = new LoginUserModel();
+
+    async Task HandleLogin()
+    {
+        string apiUrl = "https://localhost:44363/api/identity/login";
+
+        var result = await Http.PostAsJsonAsync<LoginUserModel>(apiUrl, user);
+
+        var token = await result.Content.ReadAsStringAsync();
+
+        TokenModel tokenData = JsonSerializer.Deserialize<TokenModel>(token);
+        
+        Console.WriteLine(tokenData.token);
+        Console.WriteLine(tokenData.expiration);
+    }
+}

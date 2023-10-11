@@ -19,6 +19,17 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(applicatio
 // Add AutoMapper
 builder.Services.AddSingleton(AutoMapperConfig.Initialize());
 
+builder.Services.AddCors(policy =>
+{
+    policy.AddPolicy("_myAllowSpecificOrigins", builder =>
+     builder.WithOrigins("https://localhost:44363/")
+      .SetIsOriginAllowed((host) => true) // this for using localhost address
+      .AllowAnyMethod()
+      .AllowAnyHeader()
+      .AllowCredentials());
+});
+
+
 // Add Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
@@ -58,6 +69,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors("_myAllowSpecificOrigins");
 app.UseApplication();
 app.UseHttpsRedirection();
 app.UseAuthentication();

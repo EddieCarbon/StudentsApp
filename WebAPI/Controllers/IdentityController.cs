@@ -12,7 +12,6 @@ using WebAPI.Wrappers;
 namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
-    [Authorize(Roles = UserRoles.User)]
     [ApiController]
     public class IdentityController : ControllerBase
     {
