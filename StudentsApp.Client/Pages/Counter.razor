@@ -67,20 +67,27 @@ else
     {
         newStudent.UserId = "";
         newStudent.CreateStudentAddress = new CreateStudentAddress();
-        string apiUrlCreate = "https://localhost:44363/api/students";
-        var content = new StringContent(JsonSerializer.Serialize(newStudent), Encoding.UTF8, "application/json");
-        var response = await Http.PostAsync(apiUrlCreate, content);
-        Console.WriteLine(response);
+        newStudent.CreateStudentAddress.Street = "";
+        newStudent.CreateStudentAddress.Number = 0;
+        newStudent.CreateStudentAddress.City = "";
+        newStudent.CreateStudentAddress.ZipCode = 0;
+        newStudent.CreateStudentAddress.Country = "";
 
-        if (response.IsSuccessStatusCode)
-        {
-            isFormSubmitted = true;
-        }
-        else
-        {
-            isFormSubmitted = false;
-       
-        }
+        DateTime inputDateTime = newStudent.DateOfBirth;
+        string formattedDateString = inputDateTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ");
+        DateTime formattedDate = DateTime.ParseExact(formattedDateString, "yyyy-MM-ddTHH:mm:ss.fffZ", null, System.Globalization.DateTimeStyles.AssumeUniversal);
+        newStudent.DateOfBirth = formattedDate;
+
+        // Output the result
+        Console.WriteLine(formattedDate);
+
+        string apiUrlCreate = "https://localhost:44363/api/students";
+        var json = JsonSerializer.Serialize(newStudent);
+        Console.WriteLine(json);
+        var data = new StringContent(json, Encoding.UTF8, "application/json");
+        var response = await Http.PostAsync(apiUrlCreate, data);
+
+        isFormSubmitted = true;
     }
 
     public class CreateStudent
