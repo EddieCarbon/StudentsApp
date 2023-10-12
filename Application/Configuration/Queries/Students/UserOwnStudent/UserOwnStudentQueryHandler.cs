@@ -1,6 +1,4 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using Application.Dto.Student;
+﻿using Application.Dto.Student;
 using AutoMapper;
 using Core.Entities;
 using Core.Repositories;

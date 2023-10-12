@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Application.Dto.Student;
+﻿namespace Application.Dto.Student;
 
 public class ListStudentsDto
 {

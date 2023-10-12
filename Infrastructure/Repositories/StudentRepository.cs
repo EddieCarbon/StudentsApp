@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Core.Repositories;
+﻿using Core.Repositories;
 using Infrastructure.Context;
 using Core.Entities;
 using Microsoft.EntityFrameworkCore;
