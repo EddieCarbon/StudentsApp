@@ -3,32 +3,67 @@
 @inject HttpClient Http
 @inject AuthenticationStateProvider AuthStateProvider
 @inject ILocalStorageService LocalStorage
+@inject NavigationManager NavigationManager
 
 <h3>Login</h3>
 
 <EditForm Model="user" OnSubmit="HandleLogin">
     <label for="username">Name</label>
-    <InputText id="username" @bind-Value="user.Username" />
+    <InputText id="username" class="form-control" @bind-Value="user.Username" />
+    <ValidationMessage For="@(() => user.Username)" />
 
     <label for="password">Password</label>
-    <InputText id="password" @bind-Value="user.Password" typeof="password" />
+    <InputText id="password" class="form-control" @bind-Value="user.Password" type="password" />
+    <ValidationMessage For="@(() => user.Password)" />
+
     <button type="submit" class="btn btn-primary">Login</button>
 </EditForm>
+
+@if (!string.IsNullOrEmpty(errorMessage))
+{
+    <div class="alert alert-danger">@errorMessage</div>
+}
+
+<br />
+
+<p>You do not have an account?</p>
+<button @onclick="Register" class="btn btn-primary">Register</button>
+
 
 @code {
     LoginUserModel user = new LoginUserModel();
 
+    string errorMessage;
+
     async Task HandleLogin()
     {
-        string apiUrl = "https://localhost:44363/api/identity/login";
+        var editContext = new EditContext(user);
+        var isValid = editContext.Validate();
 
-        var result = await Http.PostAsJsonAsync<LoginUserModel>(apiUrl, user);
+        if (isValid)
+        {
+            string apiUrl = "https://localhost:44363/api/identity/login";
 
-        var token = await result.Content.ReadAsStringAsync();
+            var result = await Http.PostAsJsonAsync<LoginUserModel>(apiUrl, user);
 
-        TokenModel tokenData = JsonSerializer.Deserialize<TokenModel>(token);
-        
-        Console.WriteLine(tokenData.token);
-        Console.WriteLine(tokenData.expiration);
+            if (result.IsSuccessStatusCode)
+            {
+                var token = await result.Content.ReadAsStringAsync();
+                TokenModel tokenData = JsonSerializer.Deserialize<TokenModel>(token);
+                await LocalStorage.SetItemAsync("authToken", tokenData.token);
+                await AuthStateProvider.GetAuthenticationStateAsync();
+
+                Home();
+            }
+            else
+            {
+                errorMessage = "Invalid username or password";
+            }
+        }
     }
+
+    void Register() => NavigationManager.NavigateTo("register");
+
+    void Home() => NavigationManager.NavigateTo("/");
+    
 }

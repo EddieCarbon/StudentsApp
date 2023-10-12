@@ -1,0 +1,70 @@
+﻿@page "/register"
+@using System.Text.Json;
+@inject HttpClient Http
+@inject AuthenticationStateProvider AuthStateProvider
+@inject ILocalStorageService LocalStorage
+@inject NavigationManager NavigationManager
+
+
+<h3>Register</h3>
+
+<EditForm Model="user" OnSubmit="HandleRegister">
+    <label for="username">Name</label>
+    <InputText id="username" class="form-control" @bind-Value="user.Username" />
+    <ValidationMessage For="@(() => user.Username)" />
+
+    <label for="email">Email</label>
+    <InputText id="email" class="form-control" @bind-Value="user.Email" />
+    <ValidationMessage For="@(() => user.Email)" />
+
+    <label for="password">Password</label>
+    <InputText id="password" class="form-control" @bind-Value="user.Password" type="password" />
+    <ValidationMessage For="@(() => user.Password)" />
+
+    <button type="submit" class="btn btn-primary">Register</button>
+</EditForm>
+
+@if (!string.IsNullOrEmpty(errorMessage))
+{
+    <div class="alert alert-danger">@errorMessage</div>
+}
+
+
+<p>You already have an account?</p>
+<button @onclick="Login" class="btn btn-primary">Login</button>
+
+
+@code {
+    RegisterUserModel user = new RegisterUserModel();
+
+    string errorMessage;
+
+    async Task HandleRegister()
+    {
+        var editContext = new EditContext(user);
+        var isValid = editContext.Validate();
+
+        if (isValid)
+        {
+            string apiUrl = "https://localhost:44363/api/identity/register";
+            var result = await Http.PostAsJsonAsync<RegisterUserModel>(apiUrl, user);
+
+            if (result.IsSuccessStatusCode)
+            {
+                Login();
+            }
+            else
+            {
+                // Handle error
+                var responseContent = await result.Content.ReadAsStringAsync();
+                user.Password = "";
+                errorMessage = "An error occurred while registering. Please try again later.";
+            }
+        }
+    }
+
+    void Login() => NavigationManager.NavigateTo("login");
+
+}
+
+    

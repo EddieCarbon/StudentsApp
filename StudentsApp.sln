@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudentsApp.UnitTests", "St
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudentsApp.IntegrationTest", "StudentsApp.IntegrationTest\StudentsApp.IntegrationTest.csproj", "{0B2CCD48-274F-47C6-B8B3-2C4C467267B6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentsApp.Client", "StudentsApp.Client\StudentsApp.Client.csproj", "{D124C997-CA94-4D97-982F-9BD02EA63C17}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudentsApp.Client", "StudentsApp.Client\StudentsApp.Client.csproj", "{D124C997-CA94-4D97-982F-9BD02EA63C17}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
