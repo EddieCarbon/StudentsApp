@@ -15,7 +15,7 @@
     <label for="password">Password</label>
     <InputText id="password" class="form-control" @bind-Value="user.Password" type="password" />
     <ValidationMessage For="@(() => user.Password)" />
-
+    <br/>
     <button type="submit" class="btn btn-primary">Login</button>
 </EditForm>
 
@@ -24,6 +24,7 @@
     <div class="alert alert-danger">@errorMessage</div>
 }
 
+<br />
 <br />
 
 <p>You do not have an account?</p>

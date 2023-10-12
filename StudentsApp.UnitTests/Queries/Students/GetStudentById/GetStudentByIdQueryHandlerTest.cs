@@ -1,4 +1,5 @@
-﻿using Application.Configuration.Mapping;
+﻿using System;
+using Application.Configuration.Mapping;
 using Application.Configuration.Queries.Students.GetStudentById;
 using AutoMapper;
 using Core.Entities;
@@ -6,6 +7,7 @@ using Core.Repositories;
 using FluentAssertions;
 using Moq;
 using System.Reflection.Emit;
+using System.Threading.Tasks;
 
 
 namespace StudentsApp.UnitTests.Queries.Students.GetStudentById

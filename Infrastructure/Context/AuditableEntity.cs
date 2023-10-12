@@ -1,4 +1,7 @@
-﻿namespace Infrastructure.Context
+﻿
+using System;
+
+namespace Infrastructure.Context
 {
     public class AuditableEntity
     {
