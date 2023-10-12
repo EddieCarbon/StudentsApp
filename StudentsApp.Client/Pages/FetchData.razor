@@ -78,6 +78,7 @@ else
     {
         students = await Http.GetFromJsonAsync<ListStudentsDto>(apiUrlGetAll);
     }
+
     public async Task ShowStudentDetail(int id)
     {
         string apiUrlGetById = $"https://localhost:44363/api/students/{id}";

@@ -1,33 +1,107 @@
-﻿@page "/counter"
+﻿@page "/addstudent"
+@using System.Text.Json;
+@using System.Text;
+@using static System.Net.WebRequestMethods;
+@inject HttpClient Http
 @attribute [Authorize]
 
-<PageTitle>Counter</PageTitle>
+<PageTitle>Add Student</PageTitle>
 
-<h1>Counter</h1>
+<h1>Add Student</h1>
 
-<p role="status">Current count: @currentCount</p>
+@if (isFormSubmitted)
+{
+    <p class="text-success">Student added successfully!</p>
+    <p></p>
+}
+else
+{
+    <EditForm Model="newStudent" OnValidSubmit="AddStudent">
+        <ValidationSummary />
 
-<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+        <div class="form-group">
+            <label for="name">Name</label>
+            <InputText id="name" class="form-control" @bind-Value="newStudent.Name" />
+            <ValidationMessage For="@(() => newStudent.Name)" />
+        </div>
 
-<AuthorizeView>
-    <Authorized>
-        <p>Hello, @context.User.Identity.Name!</p>
-        <p>
-            <a href="https://docs.microsoft.com/aspnet/core/blazor/security/?view=aspnetcore-3.1">Learn about authorization in Blazor</a>
-        </p>
-    </Authorized>
-    <NotAuthorized>
-        <p>
-            Looks like you're not logged in.
-        </p>
-    </NotAuthorized>
-</AuthorizeView>
+        <div class="form-group">
+            <label for="surname">Surname</label>
+            <InputText id="surname" class="form-control" @bind-Value="newStudent.Surname" />
+            <ValidationMessage For="@(() => newStudent.Surname)" />
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email</label>
+            <InputText id="email" class="form-control" @bind-Value="newStudent.Email" />
+            <ValidationMessage For="@(() => newStudent.Email)" />
+        </div>
+
+        <div class="form-group">
+            <label for="dateOfBirth">Date of Birth</label>
+            <InputDate id="dateOfBirth" class="form-control" @bind-Value="newStudent.DateOfBirth" />
+            <ValidationMessage For="@(() => newStudent.DateOfBirth)" />
+        </div>
+
+        <div class="form-group">
+            <label for="startingStudyYear">Starting Study Year</label>
+            <InputNumber id="startingStudyYear" class="form-control" @bind-Value="newStudent.StartingStudyYear" />
+            <ValidationMessage For="@(() => newStudent.StartingStudyYear)" />
+        </div>
+
+        <div class="form-group">
+            <label for="startingStudyYear">Current Department Id</label>
+            <InputNumber id="currentDepartmentId" class="form-control" @bind-Value="newStudent.CurrentDepartmentId" />
+            <ValidationMessage For="@(() => newStudent.CurrentDepartmentId)" />
+        </div>
+        <br/>
+        <button type="submit" class="btn btn-primary">Add Student</button>
+    </EditForm>
+}
 
 @code {
-    private int currentCount = 0;
+    private CreateStudent newStudent = new CreateStudent();
+    private bool isFormSubmitted = false;
 
-    private void IncrementCount()
+    private async Task AddStudent()
     {
-        currentCount++;
+        newStudent.UserId = "";
+        newStudent.CreateStudentAddress = new CreateStudentAddress();
+        string apiUrlCreate = "https://localhost:44363/api/students";
+        var content = new StringContent(JsonSerializer.Serialize(newStudent), Encoding.UTF8, "application/json");
+        var response = await Http.PostAsync(apiUrlCreate, content);
+        Console.WriteLine(response);
+
+        if (response.IsSuccessStatusCode)
+        {
+            isFormSubmitted = true;
+        }
+        else
+        {
+            isFormSubmitted = false;
+       
+        }
+    }
+
+    public class CreateStudent
+    {
+        public string UserId { get; set; }
+        public string Name { get; set; }
+        public string Surname { get; set; }
+        public string Email { get; set; }
+        public DateTime DateOfBirth { get; set; }
+        public int StartingStudyYear { get; set; }
+
+        public CreateStudentAddress CreateStudentAddress { get; set; }
+        public int CurrentDepartmentId { get; set; }
+    }
+
+    public class CreateStudentAddress
+    {
+        public string Street { get; set; }
+        public int Number { get; set; }
+        public string City { get; set; }
+        public int ZipCode { get; set; }
+        public string Country { get; set; }
     }
 }
