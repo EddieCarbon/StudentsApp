@@ -30,7 +30,6 @@ namespace WebAPI.Controllers
         
         [SwaggerOperation(Summary = "Retrieves all students")]
         [Authorize(Roles = UserRoles.Admin)]
-        [AllowAnonymous]
         [HttpGet]
         [ProducesResponseType(typeof(ListStudentsDto), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> Get()
@@ -40,7 +39,7 @@ namespace WebAPI.Controllers
         }
 
         [SwaggerOperation(Summary = "Retrieves a specific student by unique ID")]
-        [AllowAnonymous]
+        [Authorize(Roles = UserRoles.AdminOrUser)]
         [HttpGet("{Id}")]
         [ProducesResponseType(typeof(StudentDetailDto), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> Get(int Id)
@@ -50,6 +49,7 @@ namespace WebAPI.Controllers
         }
 
         [SwaggerOperation(Summary = "Retrieves a specific student by unique Email")]
+        [Authorize(Roles = UserRoles.AdminOrUser)]
         [HttpGet("[action]/{Email}")]
         [ProducesResponseType(typeof(StudentDetailDto), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> Get(string Email)
@@ -59,7 +59,7 @@ namespace WebAPI.Controllers
         }
 
         [SwaggerOperation(Summary = "Create a new student")]
-        [Authorize(Roles = UserRoles.User)]
+        [Authorize(Roles = UserRoles.AdminOrUser)]
         [HttpPost]
         [ProducesResponseType((int)HttpStatusCode.Created)]
         public async Task<IActionResult> Create(CreateStudentCommand command)
@@ -72,7 +72,7 @@ namespace WebAPI.Controllers
         }
 
         [SwaggerOperation(Summary = "Update a existing student")]
-        [Authorize(Roles = UserRoles.User)]
+        [Authorize(Roles = UserRoles.AdminOrUser)]
         [HttpPut]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         public async Task<IActionResult> Update(UpdateStudentCommand command)
@@ -90,7 +90,7 @@ namespace WebAPI.Controllers
 
 
         [SwaggerOperation(Summary = "Delete a specific student")]
-        [Authorize(Roles = UserRoles.User)]
+        [Authorize(Roles = UserRoles.AdminOrUser)]
         [HttpDelete("{Id}")]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         public async Task<IActionResult> Delete(int Id)

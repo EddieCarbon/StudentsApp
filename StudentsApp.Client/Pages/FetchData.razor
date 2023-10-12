@@ -1,57 +1,117 @@
 ﻿@page "/fetchdata"
+@using System.Text.Json;
 @inject HttpClient Http
+@attribute [Authorize]
 
-<PageTitle>Weather forecast</PageTitle>
+<PageTitle>Students</PageTitle>
 
-<h1>Weather forecast</h1>
+<h1>Student List</h1>
 
 <p>This component demonstrates fetching data from the server.</p>
 
-@if (forecasts == null)
+@if (students == null)
 {
     <p><em>Loading...</em></p>
 }
 else
 {
+    <h4>Count: @students.Count</h4>
     <table class="table">
         <thead>
             <tr>
-                <th>Date</th>
-                <th>Temp. (C)</th>
-                <th>Temp. (F)</th>
-                <th>Summary</th>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Button</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var forecast in forecasts)
+            @foreach (var student in students.Students)
             {
                 <tr>
-                    <td>@forecast.Date.ToShortDateString()</td>
-                    <td>@forecast.TemperatureC</td>
-                    <td>@forecast.TemperatureF</td>
-                    <td>@forecast.Summary</td>
+                    <td>@student.Id</td>
+                    <td>@student.Name</td>
+                    <td>
+                        <button class="btn btn-primary" @onclick="() => ShowStudentDetail(student.Id)">Detail</button>
+                    </td>
                 </tr>
             }
         </tbody>
     </table>
 }
 
+@if (selectedStudent != null)
+{
+    <br />
+    <h2>Selected Student Details</h2>
+    <dl class="row">
+        <dt class="col-sm-3">ID:</dt>
+        <dd class="col-sm-9">@selectedStudent.Id</dd>
+
+        <dt class="col-sm-3">Name:</dt>
+        <dd class="col-sm-9">@selectedStudent.Name</dd>
+
+        <dt class="col-sm-3">Surname:</dt>
+        <dd class="col-sm-9">@selectedStudent.Surname</dd>
+
+        <dt class="col-sm-3">Email:</dt>
+        <dd class="col-sm-9">@selectedStudent.Email</dd>
+
+        <dt class="col-sm-3">Date of Birth:</dt>
+        <dd class="col-sm-9">@selectedStudent.DateOfBirth</dd>
+
+        <dt class="col-sm-3">Starting Study Year:</dt>
+        <dd class="col-sm-9">@selectedStudent.StartingStudyYear</dd>
+    </dl>
+
+    <button class="btn btn-danger" @onclick="() => DeleteStudent(selectedStudent.Id)">Delete</button>
+    <button class="btn btn-primary" @onclick="() => selectedStudent=null" >Close</button>
+}
+
+
 @code {
-    private WeatherForecast[]? forecasts;
+    ListStudentsDto? students;
+    StudentDetailDto? selectedStudent;
+
+    private string apiUrlGetAll = "https://localhost:44363/api/students";
 
     protected override async Task OnInitializedAsync()
     {
-        forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("sample-data/weather.json");
+        students = await Http.GetFromJsonAsync<ListStudentsDto>(apiUrlGetAll);
+    }
+    public async Task ShowStudentDetail(int id)
+    {
+        string apiUrlGetById = $"https://localhost:44363/api/students/{id}";
+        selectedStudent = await Http.GetFromJsonAsync<StudentDetailDto>(apiUrlGetById);
     }
 
-    public class WeatherForecast
+    public async Task DeleteStudent(int id)
     {
-        public DateTime Date { get; set; }
+        selectedStudent = null;
+        students = null;
+        string apiUrlDelete = $"https://localhost:44363/api/students/{id}";
+        await Http.DeleteAsync(apiUrlDelete);
+        students = await Http.GetFromJsonAsync<ListStudentsDto>(apiUrlGetAll);
+    }
 
-        public int TemperatureC { get; set; }
+    public class ListStudentsDto
+    {
+        public int Count { get; set; }
+        public IEnumerable<StudentDto> Students { get; set; }
+    }
 
-        public string? Summary { get; set; }
+    public class StudentDto
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+    }
 
-        public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+    public class StudentDetailDto
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Surname { get; set; }
+        public string Email { get; set; }
+        public DateTime DateOfBirth { get; set; }
+        public int StartingStudyYear { get; set; }
     }
 }
