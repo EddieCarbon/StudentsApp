@@ -29,7 +29,7 @@ namespace WebAPI.Controllers
         }
         
         [SwaggerOperation(Summary = "Retrieves all students")]
-        [Authorize(Roles = UserRoles.Admin)]
+        [Authorize(Roles = UserRoles.AdminOrUser)]
         [HttpGet]
         [ProducesResponseType(typeof(ListStudentsDto), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> Get()

@@ -1,0 +1,125 @@
+﻿@page "/updatestudent"
+@using System.Text.Json;
+@using System.Text;
+@using static System.Net.WebRequestMethods;
+@inject HttpClient Http
+@attribute [Authorize]
+
+<PageTitle>Add Student</PageTitle>
+
+<h1>Add Student</h1>
+
+@if (isFormSubmitted)
+{
+    <p class="text-success">Student added successfully!</p>
+    <p></p>
+}
+else
+{
+    <EditForm Model="newStudent" OnValidSubmit="PutStudent">
+        <ValidationSummary />
+
+        <div class="form-group">
+            <label for="startingStudyYear">Id</label>
+            <InputNumber id="id" class="form-control" @bind-Value="newStudent.Id" />
+            <ValidationMessage For="@(() => newStudent.Id)" />
+        </div>
+
+        <div class="form-group">
+            <label for="name">Name</label>
+            <InputText id="name" class="form-control" @bind-Value="newStudent.Name" />
+            <ValidationMessage For="@(() => newStudent.Name)" />
+        </div>
+
+        <div class="form-group">
+            <label for="surname">Surname</label>
+            <InputText id="surname" class="form-control" @bind-Value="newStudent.Surname" />
+            <ValidationMessage For="@(() => newStudent.Surname)" />
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email</label>
+            <InputText id="email" class="form-control" @bind-Value="newStudent.Email" />
+            <ValidationMessage For="@(() => newStudent.Email)" />
+        </div>
+
+        <div class="form-group">
+            <label for="dateOfBirth">Date of Birth</label>
+            <InputDate id="dateOfBirth" class="form-control" @bind-Value="newStudent.DateOfBirth" />
+            <ValidationMessage For="@(() => newStudent.DateOfBirth)" />
+        </div>
+
+        <div class="form-group">
+            <label for="startingStudyYear">Starting Study Year</label>
+            <InputNumber id="startingStudyYear" class="form-control" @bind-Value="newStudent.StartingStudyYear" />
+            <ValidationMessage For="@(() => newStudent.StartingStudyYear)" />
+        </div>
+
+        <br />
+        <button type="submit" class="btn btn-primary">Update Student</button>
+    </EditForm>
+}
+
+@code {
+    private CreateStudentDto newStudent = new CreateStudentDto();
+    private bool isFormSubmitted = false;
+
+    private async Task PutStudent()
+    {
+        #region Get Department Name and Building Number
+
+        newStudent.CreateStudentAddress = new CreateStudentAddress();
+        newStudent.CreateStudentAddress.Street = "";
+        newStudent.CreateStudentAddress.Number = 0;
+        newStudent.CreateStudentAddress.City = "";
+        newStudent.CreateStudentAddress.ZipCode = 0;
+        newStudent.CreateStudentAddress.Country = "";
+
+        newStudent.CreateStudentDepartment = new CreateStudentDepartment();
+        newStudent.CreateStudentDepartment.DepartmentName = "";
+        newStudent.CreateStudentDepartment.BuildingNumber = "";
+
+        #endregion
+
+        DateTime inputDateTime = newStudent.DateOfBirth;
+        string formattedDateString = inputDateTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ");
+        DateTime formattedDate = DateTime.ParseExact(formattedDateString, "yyyy-MM-ddTHH:mm:ss.fffZ", null, System.Globalization.DateTimeStyles.AssumeUniversal);
+        newStudent.DateOfBirth = formattedDate;
+
+        string apiUrlUpdate = "https://localhost:44363/api/students";
+        var json = JsonSerializer.Serialize(newStudent);
+
+        var data = new StringContent(json, Encoding.UTF8, "application/json");
+        var response = await Http.PutAsync(apiUrlUpdate, data);
+
+        isFormSubmitted = true;
+    }
+
+    public class CreateStudentDto
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Surname { get; set; }
+        public string Email { get; set; }
+        public DateTime DateOfBirth { get; set; }
+        public int StartingStudyYear { get; set; }
+
+        public CreateStudentAddress CreateStudentAddress { get; set; }
+        public CreateStudentDepartment CreateStudentDepartment { get; set; }
+    }
+
+    public class CreateStudentAddress
+    {
+        public string Street { get; set; }
+        public int Number { get; set; }
+        public string City { get; set; }
+        public int ZipCode { get; set; }
+        public string Country { get; set; }
+    }
+
+    public class CreateStudentDepartment
+    {
+        public string DepartmentName { get; set; }
+        public string BuildingNumber { get; set; }
+    }
+}

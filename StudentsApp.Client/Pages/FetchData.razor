@@ -1,7 +1,9 @@
 ﻿@page "/fetchdata"
 @using System.Text.Json;
 @inject HttpClient Http
+@inject NavigationManager NavigationManager
 @attribute [Authorize]
+
 
 <PageTitle>Students</PageTitle>
 
@@ -64,6 +66,7 @@ else
     </dl>
 
     <button class="btn btn-danger" @onclick="() => DeleteStudent(selectedStudent.Id)">Delete</button>
+    <button class="btn btn-primary" @onclick='() => NavigationManager.NavigateTo("updatestudent")'>Update</button>
     <button class="btn btn-primary" @onclick="() => selectedStudent=null" >Close</button>
 }
 
@@ -91,7 +94,7 @@ else
         students = null;
         string apiUrlDelete = $"https://localhost:44363/api/students/{id}";
         await Http.DeleteAsync(apiUrlDelete);
-        students = await Http.GetFromJsonAsync<ListStudentsDto>(apiUrlGetAll);
+        students = await Http.GetFromJsonAsync<ListStudentsDto>(apiUrlDelete);
     }
 
     public class ListStudentsDto

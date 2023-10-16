@@ -5,13 +5,13 @@
 @inject HttpClient Http
 @attribute [Authorize]
 
-<PageTitle>Add Student</PageTitle>
+<PageTitle>Update Student</PageTitle>
 
-<h1>Add Student</h1>
+<h1>Update Student</h1>
 
 @if (isFormSubmitted)
 {
-    <p class="text-success">Student added successfully!</p>
+    <p class="text-success">Student updated successfully!</p>
     <p></p>
 }
 else
@@ -60,7 +60,7 @@ else
 }
 
 @code {
-    private CreateStudent newStudent = new CreateStudent();
+    private CreateStudentDto newStudent = new CreateStudentDto();
     private bool isFormSubmitted = false;
 
     private async Task AddStudent()
@@ -90,7 +90,7 @@ else
         isFormSubmitted = true;
     }
 
-    public class CreateStudent
+    public class CreateStudentDto
     {
         public string UserId { get; set; }
         public string Name { get; set; }
