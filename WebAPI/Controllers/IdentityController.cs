@@ -1,12 +1,15 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Application.Configuration.Commands.Identity.ForgotPassword;
+using Application.Configuration.Commands.Identity.ResetPassword;
 using Application.Configuration.Identity.Models;
-using Infrastructure.Identity;
-using Microsoft.AspNetCore.Authorization;
+using Application.Identity;
+using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using Swashbuckle.AspNetCore.Annotations;
 using WebAPI.Wrappers;
 
 namespace WebAPI.Controllers
@@ -18,14 +21,17 @@ namespace WebAPI.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IConfiguration _configuration;
+        private readonly IMediator _mediator;
         
-        public IdentityController(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration)
+        public IdentityController(IMediator mediator, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration)
         {
+            _mediator = mediator;
             _userManager = userManager;
             _roleManager = roleManager;
             _configuration = configuration;
         }
-
+        
+        [SwaggerOperation(Summary = "Register")]
         [HttpPost]
         [Route("Register")]
         public async Task<IActionResult> Register(RegisterUserModel register)
@@ -70,7 +76,7 @@ namespace WebAPI.Controllers
             });
         }
 
-
+        [SwaggerOperation(Summary = "Register Admin")]
         [HttpPost]
         [Route("RegisterAdmin")]
         public async Task<IActionResult> RegisterAdmin(RegisterUserModel register)
@@ -115,7 +121,7 @@ namespace WebAPI.Controllers
             });
         }
 
-
+        [SwaggerOperation(Summary = "Login")]
         [HttpPost]
         [Route("Login")]
         public async Task<IActionResult> Login(LoginUserModel login)
@@ -152,6 +158,24 @@ namespace WebAPI.Controllers
             }
 
             return Unauthorized();
+        }
+        
+        [SwaggerOperation(Summary = "Forgot Password")]
+        [HttpPost("[action]")]
+        [Route("ForgotPassword")]
+        public async Task<ActionResult> ForgotPassword(ForgotPasswordCommand command)
+        {
+            await _mediator.Send(command);
+            return NoContent();
+        }
+
+        [SwaggerOperation(Summary = "Reset Password")]
+        [HttpPost("[action]")]
+        [Route("ResetPassword")]
+        public async Task<ActionResult> ResetPassword(ResetPasswordCommand command)
+        {
+            await _mediator.Send(command);
+            return NoContent();
         }
     }
 }

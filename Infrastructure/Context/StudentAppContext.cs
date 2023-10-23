@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Application.Configuration.Services;
 using Core.Entities;
-using Infrastructure.Identity;
+using Application.Identity;
 
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;

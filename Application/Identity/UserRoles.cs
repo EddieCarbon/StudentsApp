@@ -1,5 +1,5 @@
 ﻿
-namespace Infrastructure.Identity
+namespace Application.Identity
 {
     public static class UserRoles
     {

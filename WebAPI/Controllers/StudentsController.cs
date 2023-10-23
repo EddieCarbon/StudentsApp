@@ -12,7 +12,7 @@ using Application.Configuration.Queries.Students.GetStudentByEmail;
 using Application.Configuration.Commands.Students.DeleteStudent;
 using Microsoft.AspNetCore.Authorization;
 using WebAPI.Wrappers;
-using Infrastructure.Identity;
+using Application.Identity;
 
 namespace WebAPI.Controllers
 {
@@ -42,9 +42,9 @@ namespace WebAPI.Controllers
         [Authorize(Roles = UserRoles.AdminOrUser)]
         [HttpGet("{Id}")]
         [ProducesResponseType(typeof(StudentDetailDto), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> Get(int Id)
+        public async Task<IActionResult> Get(int id)
         {
-            var result = await _mediator.Send(new GetStudentByIdQuery(Id));
+            var result = await _mediator.Send(new GetStudentByIdQuery(id));
             return result != null ? Ok(result) : NotFound();
         }
 
