@@ -1,9 +1,10 @@
 using Application.Identity;
+using MediatR;
 using Microsoft.AspNetCore.Identity;
 
 namespace Application.Configuration.Commands.Identity.ResetPassword;
 
-internal class ResetPasswordCommandHandler
+internal class ResetPasswordCommandHandler : IRequestHandler<ResetPasswordCommand>
 {
     private readonly UserManager<ApplicationUser> _userManager;
 
