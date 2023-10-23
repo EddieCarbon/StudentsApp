@@ -4,13 +4,17 @@ using Application;
 using Application.Configuration.Mapping;
 using WebAPI;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Core.Abstraction;
+using Infrastructure.Email;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddIdentityService(builder.Configuration);
+builder.Services.AddScoped<IEmailSender, EmailSender>();
 builder.Services.AddApplication();
 builder.Services.AddControllers();
+
 
 // Add Mediator
 var applicationAssembly = AppDomain.CurrentDomain.GetAssemblies().Single(assembly => assembly.GetName().Name == "Application");

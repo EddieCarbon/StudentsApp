@@ -1,9 +1,12 @@
 ﻿using Application.Configuration.Commands.Departments.CreateDepartment;
 using Application.Configuration.Commands.Departments.UpdateDepartment;
+using Application.Configuration.Commands.Identity.ForgotPassword;
+using Application.Configuration.Commands.Identity.ResetPassword;
 using Application.Configuration.Commands.Students.CreateStudent;
 using Application.Configuration.Commands.Students.UpdateStudent;
 using Application.Configuration.Validation;
 using Application.Middlewares;
+using Core.Abstraction;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
@@ -23,6 +26,8 @@ namespace Application
             services.AddScoped<IValidator<UpdateStudentCommand>, UpdateStudentCommandValidation>();
             services.AddScoped<IValidator<CreateDepartmentCommand>, CreateDepartmentCommandValidation>();
             services.AddScoped<IValidator<UpdateDepartmentCommand>, UpdateDepartmentCommandValidation>();
+            services.AddScoped<IValidator<ForgotPasswordCommand>, ForgotPasswordCommandValidator>();
+            services.AddScoped<IValidator<ResetPasswordCommand>, ResetPasswordCommandValidator>();
 
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(CommandValidationBehavior<,>));
             services.AddTransient<ExceptionHandlingMiddleware>();

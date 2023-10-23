@@ -1,7 +1,9 @@
 using System.Text;
 using Application.Configuration.Services;
 using Application.Identity;
+using Core.Abstraction;
 using Infrastructure.Context;
+using Infrastructure.Email;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
@@ -15,7 +17,9 @@ public static class Extensions
         services.AddIdentity<ApplicationUser, IdentityRole>()
             .AddEntityFrameworkStores<StudentAppContext>()
             .AddDefaultTokenProviders();
-        
+
+
+
         services.AddAuthentication(options =>
         {
             options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

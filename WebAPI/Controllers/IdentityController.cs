@@ -31,7 +31,7 @@ namespace WebAPI.Controllers
             _configuration = configuration;
         }
         
-        [SwaggerOperation(Summary = "Register")]
+     
         [HttpPost]
         [Route("Register")]
         public async Task<IActionResult> Register(RegisterUserModel register)
@@ -76,7 +76,7 @@ namespace WebAPI.Controllers
             });
         }
 
-        [SwaggerOperation(Summary = "Register Admin")]
+        
         [HttpPost]
         [Route("RegisterAdmin")]
         public async Task<IActionResult> RegisterAdmin(RegisterUserModel register)
@@ -121,7 +121,7 @@ namespace WebAPI.Controllers
             });
         }
 
-        [SwaggerOperation(Summary = "Login")]
+        
         [HttpPost]
         [Route("Login")]
         public async Task<IActionResult> Login(LoginUserModel login)
@@ -159,19 +159,18 @@ namespace WebAPI.Controllers
 
             return Unauthorized();
         }
-        
-        [SwaggerOperation(Summary = "Forgot Password")]
+
+
         [HttpPost("[action]")]
-        [Route("ForgotPassword")]
+        [SwaggerOperation("Forgot password")]
         public async Task<ActionResult> ForgotPassword(ForgotPasswordCommand command)
         {
             await _mediator.Send(command);
             return NoContent();
         }
 
-        [SwaggerOperation(Summary = "Reset Password")]
         [HttpPost("[action]")]
-        [Route("ResetPassword")]
+        [SwaggerOperation("Reset password")]
         public async Task<ActionResult> ResetPassword(ResetPasswordCommand command)
         {
             await _mediator.Send(command);
