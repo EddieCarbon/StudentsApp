@@ -19,6 +19,7 @@
     <button type="submit" class="btn btn-primary">Login</button>
 </EditForm>
 
+
 @if (!string.IsNullOrEmpty(errorMessage))
 {
     <div class="alert alert-danger">@errorMessage</div>
@@ -28,6 +29,7 @@
 
 <p>You do not have an account?</p>
 <button @onclick="Register" class="btn btn-primary">Register</button>
+<button @onclick="ForgotPassword" class="btn btn-primary">Forgot Password?</button>
 
 
 @code {
@@ -65,5 +67,7 @@
     void Register() => NavigationManager.NavigateTo("register");
 
     void Home() => NavigationManager.NavigateTo("/");
-    
+
+    void ForgotPassword() => NavigationManager.NavigateTo("/forgotpassword");
+
 }
