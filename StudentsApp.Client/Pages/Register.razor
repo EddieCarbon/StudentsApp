@@ -37,11 +37,12 @@
 
 
 @code {
-
-    RegisterUserModel user = new RegisterUserModel();
     private string errorDivMessage;
     private string errorDivDetails;
-
+    
+    RegisterUserModel user = new();
+    
+    
     public async Task HandleRegister()
     {
         var editContext = new EditContext(user);
@@ -50,7 +51,7 @@
         if (isValid)
         {
             string apiUrl = "https://localhost:44363/api/identity/register";
-            var result = await Http.PostAsJsonAsync<RegisterUserModel>(apiUrl, user);
+            var result = await Http.PostAsJsonAsync(apiUrl, user);
 
             if (result.IsSuccessStatusCode)
             {
