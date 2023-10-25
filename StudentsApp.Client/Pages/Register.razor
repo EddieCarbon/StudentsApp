@@ -39,10 +39,8 @@
 @code {
 
     RegisterUserModel user = new RegisterUserModel();
-
-    string errorMessage;
-    public string errorDivMessage;
-    public string errorDivDetails;
+    private string errorDivMessage;
+    private string errorDivDetails;
 
     public async Task HandleRegister()
     {
@@ -60,15 +58,9 @@
             }
             else
             {
-
                 var responseContent = await result.Content.ReadAsStringAsync();
                 await HandleResponse(responseContent);
-
-                Console.WriteLine(errorDivMessage);
-                Console.WriteLine(errorDivDetails);
                 user.Password = "";
-
-                
             }
         }
     }
@@ -77,23 +69,17 @@
     {
         try
         {
-            // Deserialize the JSON response
-            var response = JsonSerializer.Deserialize<ApiResponse>(jsonResponse);
-
+            var response = JsonSerializer.Deserialize<ApiResponse>(jsonResponse, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            
             if (response != null && !response.Succeeded)
             {
-                // The API call was not successful; handle errors
-                string errorMessage = response.Message;
-                List<string> errorDetails = response.Errors;
-
-                errorDivMessage = errorMessage;
-                errorDivDetails = string.Join("<br />", errorDetails);
+                errorDivMessage = response.Message != null ? response.Message : string.Empty;
+                errorDivDetails = response.Errors != null ? string.Join(", ", response.Errors) : string.Empty;
             }
         }
-        catch (JsonException)
+        catch (Exception ex)
         {
-            // Handle JSON parsing errors
-            errorDivMessage = "Error parsing JSON response.";
+            Console.WriteLine(ex.Message);
         }
     }
 
