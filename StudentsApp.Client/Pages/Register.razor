@@ -1,9 +1,10 @@
 ﻿@page "/register"
-@using System.Text.Json;
 @inject HttpClient Http
 @inject AuthenticationStateProvider AuthStateProvider
 @inject ILocalStorageService LocalStorage
 @inject NavigationManager NavigationManager
+@using System.Text.Json;
+@using StudentsApp.Client.Models;
 
 
 <h3>Register</h3>
@@ -24,9 +25,10 @@
     <button type="submit" class="btn btn-primary">Register</button>
 </EditForm>
 
-@if (!string.IsNullOrEmpty(errorMessage))
+@if (!string.IsNullOrEmpty(errorDivMessage))
 {
-    <div class="alert alert-danger">@errorMessage</div>
+    <div class="alert alert-danger">@errorDivMessage</div>
+    <div class="alert alert-danger">@errorDivDetails</div>
 }
 
 
@@ -35,11 +37,14 @@
 
 
 @code {
+
     RegisterUserModel user = new RegisterUserModel();
 
     string errorMessage;
+    public string errorDivMessage;
+    public string errorDivDetails;
 
-    async Task HandleRegister()
+    public async Task HandleRegister()
     {
         var editContext = new EditContext(user);
         var isValid = editContext.Validate();
@@ -55,11 +60,40 @@
             }
             else
             {
-                // Handle error
+
                 var responseContent = await result.Content.ReadAsStringAsync();
+                await HandleResponse(responseContent);
+
+                Console.WriteLine(errorDivMessage);
+                Console.WriteLine(errorDivDetails);
                 user.Password = "";
-                errorMessage = "An error occurred while registering. Please try again later.";
+
+                
             }
+        }
+    }
+
+    public async Task HandleResponse(string jsonResponse)
+    {
+        try
+        {
+            // Deserialize the JSON response
+            var response = JsonSerializer.Deserialize<ApiResponse>(jsonResponse);
+
+            if (response != null && !response.Succeeded)
+            {
+                // The API call was not successful; handle errors
+                string errorMessage = response.Message;
+                List<string> errorDetails = response.Errors;
+
+                errorDivMessage = errorMessage;
+                errorDivDetails = string.Join("<br />", errorDetails);
+            }
+        }
+        catch (JsonException)
+        {
+            // Handle JSON parsing errors
+            errorDivMessage = "Error parsing JSON response.";
         }
     }
 
