@@ -1,5 +1,6 @@
 ﻿@page "/login"
 @using System.Text.Json;
+@using System.ComponentModel.DataAnnotations;
 @inject HttpClient Http
 @inject AuthenticationStateProvider AuthStateProvider
 @inject ILocalStorageService LocalStorage
@@ -7,14 +8,21 @@
 
 <h3>Login</h3>
 
-<EditForm Model="user" OnSubmit="HandleLogin">
-    <label for="username">Name</label>
-    <InputText id="username" class="form-control" @bind-Value="user.Username" />
-    <ValidationMessage For="@(() => user.Username)" />
+<EditForm Model="user" OnValidSubmit="HandleLogin">
+    <DataAnnotationsValidator />
 
-    <label for="password">Password</label>
-    <InputText id="password" class="form-control" @bind-Value="user.Password" type="password" />
-    <ValidationMessage For="@(() => user.Password)" />
+    <div class="form-group">
+        <label for="username">Name</label>
+        <InputText id="username" class="form-control" @bind-Value="user.Username" />
+        <ValidationMessage For="@(() => user.Username)" />
+    </div>
+
+    <div class="form-group">
+        <label for="password">Password</label>
+        <InputText id="password" class="form-control" @bind-Value="user.Password" type="password" />
+        <ValidationMessage For="@(() => user.Password)" />
+    </div>
+
     <br/>
     <button type="submit" class="btn btn-primary">Login</button>
 </EditForm>
@@ -22,6 +30,7 @@
 
 @if (!string.IsNullOrEmpty(errorMessage))
 {
+    <br />
     <div class="alert alert-danger">@errorMessage</div>
 }
 

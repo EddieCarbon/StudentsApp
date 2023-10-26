@@ -3,6 +3,7 @@
 @inject AuthenticationStateProvider AuthStateProvider
 @inject ILocalStorageService LocalStorage
 @inject NavigationManager NavigationManager
+@using System.ComponentModel.DataAnnotations;
 @using System.Text.Json;
 @using StudentsApp.Client.Models;
 @using StudentsApp.Client.Helpers
@@ -10,18 +11,27 @@
 
 <h3>Register</h3>
 
-<EditForm Model="user" OnSubmit="HandleRegister">
-    <label for="username">Name</label>
-    <InputText id="username" class="form-control" @bind-Value="user.Username" />
-    <ValidationMessage For="@(() => user.Username)" />
+<EditForm Model="user" OnValidSubmit="HandleRegister">
+    <DataAnnotationsValidator /> 
 
-    <label for="email">Email</label>
-    <InputText id="email" class="form-control" @bind-Value="user.Email" />
-    <ValidationMessage For="@(() => user.Email)" />
+    <div class="form-group">
+        <label for="username">Name</label>
+        <InputText id="username" class="form-control" @bind-Value="user.Username" />
+        <ValidationMessage For="@(() => user.Username)" />
+    </div>
 
-    <label for="password">Password</label>
-    <InputText id="password" class="form-control" @bind-Value="user.Password" type="password" />
-    <ValidationMessage For="@(() => user.Password)" />
+    <div class="form-group">
+        <label for="email">Email</label>
+        <InputText id="email" class="form-control" @bind-Value="user.Email" />
+        <ValidationMessage For="@(() => user.Email)" />
+    </div>
+
+    <div class="form-group">
+        <label for="password">Password</label>
+        <InputText id="password" class="form-control" @bind-Value="user.Password" type="password" />
+        <ValidationMessage For="@(() => user.Password)" />
+    </div>
+
     <br/>
     <button type="submit" class="btn btn-primary">Register</button>
 </EditForm>
@@ -33,13 +43,12 @@
     <div class="alert alert-danger">@handelResponse.errorDivDetails</div>
 }
 
-
+<br />
 <p>You already have an account?</p>
 <button @onclick="Login" class="btn btn-primary">Login</button>
 
 
 @code {
-
     RegisterUserModel user = new RegisterUserModel();
     HandleResponse handelResponse = new HandleResponse();
 
@@ -65,24 +74,6 @@
             }
         }
     }
-
-    // public async Task HandleResponse(string jsonResponse)
-    // {
-    //     try
-    //     {
-    //         var response = JsonSerializer.Deserialize<ApiResponse>(jsonResponse, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-            
-    //         if (response != null && !response.Succeeded)
-    //         {
-    //             errorDivMessage = response.Message != null ? response.Message : string.Empty;
-    //             errorDivDetails = response.Errors != null ? string.Join(", ", response.Errors) : string.Empty;
-    //         }
-    //     }
-    //     catch (Exception ex)
-    //     {
-    //         Console.WriteLine(ex.Message);
-    //     }
-    // }
 
     void Login() => NavigationManager.NavigateTo("login");
 
