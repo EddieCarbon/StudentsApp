@@ -18,6 +18,9 @@ internal class ResetPasswordCommandHandler : IRequestHandler<ResetPasswordComman
         var user = await _userManager.FindByEmailAsync(request.Email);
         if (user == null)
             throw new Exception("User not found");
+
+        if (request.Password != request.ConfirmPassword)
+            throw new Exception("Passwords do not match");
         
         await _userManager.ResetPasswordAsync(user, request.Token, request.Password);
     }

@@ -5,6 +5,7 @@
 @inject NavigationManager NavigationManager
 @using System.Text.Json;
 @using StudentsApp.Client.Models;
+@using StudentsApp.Client.Helpers
 
 
 <h3>Register</h3>
@@ -25,11 +26,11 @@
     <button type="submit" class="btn btn-primary">Register</button>
 </EditForm>
 
-@if (!string.IsNullOrEmpty(errorDivMessage))
+@if (!string.IsNullOrEmpty(handelResponse.errorDivMessage))
 {
     <br />
-    <div class="alert alert-danger">@errorDivMessage</div>
-    <div class="alert alert-danger">@errorDivDetails</div>
+    <div class="alert alert-danger">@handelResponse.errorDivMessage</div>
+    <div class="alert alert-danger">@handelResponse.errorDivDetails</div>
 }
 
 
@@ -40,8 +41,7 @@
 @code {
 
     RegisterUserModel user = new RegisterUserModel();
-    private string errorDivMessage;
-    private string errorDivDetails;
+    HandleResponse handelResponse = new HandleResponse();
 
     public async Task HandleRegister()
     {
@@ -60,29 +60,29 @@
             else
             {
                 var responseContent = await result.Content.ReadAsStringAsync();
-                await HandleResponse(responseContent);
+                handelResponse.HandleError(responseContent);
                 user.Password = "";
             }
         }
     }
 
-    public async Task HandleResponse(string jsonResponse)
-    {
-        try
-        {
-            var response = JsonSerializer.Deserialize<ApiResponse>(jsonResponse, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+    // public async Task HandleResponse(string jsonResponse)
+    // {
+    //     try
+    //     {
+    //         var response = JsonSerializer.Deserialize<ApiResponse>(jsonResponse, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
             
-            if (response != null && !response.Succeeded)
-            {
-                errorDivMessage = response.Message != null ? response.Message : string.Empty;
-                errorDivDetails = response.Errors != null ? string.Join(", ", response.Errors) : string.Empty;
-            }
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex.Message);
-        }
-    }
+    //         if (response != null && !response.Succeeded)
+    //         {
+    //             errorDivMessage = response.Message != null ? response.Message : string.Empty;
+    //             errorDivDetails = response.Errors != null ? string.Join(", ", response.Errors) : string.Empty;
+    //         }
+    //     }
+    //     catch (Exception ex)
+    //     {
+    //         Console.WriteLine(ex.Message);
+    //     }
+    // }
 
     void Login() => NavigationManager.NavigateTo("login");
 

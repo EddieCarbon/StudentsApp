@@ -7,7 +7,7 @@
 
 <PageTitle>Update Student</PageTitle>
 
-<h1>Update Student</h1>
+<h1>Add Student</h1>
 
 @if (isFormSubmitted)
 {
@@ -49,11 +49,6 @@ else
             <ValidationMessage For="@(() => newStudent.StartingStudyYear)" />
         </div>
 
-        <div class="form-group">
-            <label for="startingStudyYear">Current Department Id</label>
-            <InputNumber id="currentDepartmentId" class="form-control" @bind-Value="newStudent.CurrentDepartmentId" />
-            <ValidationMessage For="@(() => newStudent.CurrentDepartmentId)" />
-        </div>
         <br/>
         <button type="submit" class="btn btn-primary">Add Student</button>
     </EditForm>
@@ -65,7 +60,10 @@ else
 
     private async Task AddStudent()
     {
+        # region Hardcoded values
+
         newStudent.UserId = "";
+        newStudent.CurrentDepartmentId = 1;
         newStudent.CreateStudentAddress = new CreateStudentAddress();
         newStudent.CreateStudentAddress.Street = "";
         newStudent.CreateStudentAddress.Number = 0;
@@ -73,20 +71,19 @@ else
         newStudent.CreateStudentAddress.ZipCode = 0;
         newStudent.CreateStudentAddress.Country = "";
 
+        #endregion
+
+        // Format date to UTC
         DateTime inputDateTime = newStudent.DateOfBirth;
         string formattedDateString = inputDateTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ");
         DateTime formattedDate = DateTime.ParseExact(formattedDateString, "yyyy-MM-ddTHH:mm:ss.fffZ", null, System.Globalization.DateTimeStyles.AssumeUniversal);
         newStudent.DateOfBirth = formattedDate;
 
-        // Output the result
-        Console.WriteLine(formattedDate);
-
+        // Send POST request
         string apiUrlCreate = "https://localhost:44363/api/students";
         var json = JsonSerializer.Serialize(newStudent);
-        Console.WriteLine(json);
         var data = new StringContent(json, Encoding.UTF8, "application/json");
         var response = await Http.PostAsync(apiUrlCreate, data);
-
         isFormSubmitted = true;
     }
 

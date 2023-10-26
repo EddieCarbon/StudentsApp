@@ -41,7 +41,7 @@ namespace WebAPI.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response<bool>
                 {
-                    Succeeded = false, 
+                    Succeeded = false,
                     Message = "User creation failed! Please check user details and try again."
                 });
             }
@@ -58,7 +58,7 @@ namespace WebAPI.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response<bool>
                 {
-                    Succeeded = false, 
+                    Succeeded = false,
                     Message = "User creation failed! Please check user details and try again.",
                     Errors = result.Errors.Select(e => e.Description)
                 });
@@ -68,10 +68,10 @@ namespace WebAPI.Controllers
                 await _roleManager.CreateAsync(new IdentityRole(UserRoles.User));
 
             await _userManager.AddToRoleAsync(user, UserRoles.User);
-            
+
             return Ok(new Response<bool>
             {
-                Succeeded = true, 
+                Succeeded = true,
                 Message = "User created successfully!"
             });
         }

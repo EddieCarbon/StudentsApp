@@ -90,11 +90,10 @@ else
 
     public async Task DeleteStudent(int id)
     {
-        selectedStudent = null;
-        students = null;
         string apiUrlDelete = $"https://localhost:44363/api/students/{id}";
         await Http.DeleteAsync(apiUrlDelete);
-        students = await Http.GetFromJsonAsync<ListStudentsDto>(apiUrlDelete);
+        students = await Http.GetFromJsonAsync<ListStudentsDto>(apiUrlGetAll);
+        selectedStudent = null;
     }
 
     public class ListStudentsDto
